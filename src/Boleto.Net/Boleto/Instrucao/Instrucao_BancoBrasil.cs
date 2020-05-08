@@ -19,6 +19,7 @@ namespace BoletoNet
         DevolverAposNDias = 92,
         JurosdeMora = 998,
         DescontoporDia = 999,
+        NegativacaoSemProtesto = 88,
     }
 
     #endregion
@@ -147,6 +148,11 @@ namespace BoletoNet
                     case EnumInstrucoes_BancoBrasil.DescontoporDia:
                         this.Codigo = (int)EnumInstrucoes_BancoBrasil.DescontoporDia;
                         this.Descricao = "Conceder desconto de R$ "; // por dia de antecipação
+                        break;
+                    case EnumInstrucoes_BancoBrasil.NegativacaoSemProtesto:
+                        this.Codigo = (int)EnumInstrucoes_BancoBrasil.NegativacaoSemProtesto;
+                        this.Descricao = "Negativar após " + nrDias + " dias do vencimento";
+                        QuantidadeDias = nrDias;
                         break;
                     default:
                         this.Codigo = 0;

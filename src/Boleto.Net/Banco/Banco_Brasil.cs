@@ -2270,15 +2270,22 @@ namespace BoletoNet
                 string vInstrucao2 = "0";
                 int quantidadeDeDias = 0;
                 var instrucaoProtestarAposNDiasCorridos = boleto.Instrucoes.FirstOrDefault(x => x.Codigo == (int)EnumInstrucoes_BancoBrasil.ProtestarAposNDiasCorridos);
+                var instrucaoNegativacaoSemProtesto = boleto.Instrucoes.FirstOrDefault(x => x.Codigo == (int)EnumInstrucoes_BancoBrasil.NegativacaoSemProtesto);
+                var negativar = false;
                 if (instrucaoProtestarAposNDiasCorridos != null)
                 {
                     quantidadeDeDias = instrucaoProtestarAposNDiasCorridos.QuantidadeDias;
+                }
+                else if (instrucaoNegativacaoSemProtesto != null)
+                {
+                    quantidadeDeDias = instrucaoNegativacaoSemProtesto.QuantidadeDias;
+                    negativar = true;
                 }
 
 
                 string diasProtesto = quantidadeDeDias.ToString().PadLeft(2, '0');
                 
-                string vInstrucao1 = DecifraInstrucao1(quantidadeDeDias);
+                string vInstrucao1 = DecifraInstrucao1(quantidadeDeDias, negativar);
 
                 #endregion
 
@@ -2425,8 +2432,10 @@ namespace BoletoNet
         /// </summary>
         /// <param name="quantidadeDeDias"></param>
         /// <returns></returns>
-        private string DecifraInstrucao1(int quantidadeDeDias)
+        private string DecifraInstrucao1(int quantidadeDeDias, bool negativar)
         {
+            if (negativar) return "88";
+
             if ((quantidadeDeDias >= 6 && quantidadeDeDias <= 29)
                 || (quantidadeDeDias == 35 || quantidadeDeDias == 40))
             {
