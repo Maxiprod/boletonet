@@ -68,13 +68,18 @@ namespace BoletoNet
                             break;
                     }
 
-                    while (IdsRegistroDetalhe.Contains(DetalheRetorno.PrimeiroCaracter(linha)))
+                    while(linha != null)
                     {
-                        DetalheRetorno detalhe = banco.LerDetalheRetornoCNAB400(linha);
-                        ListaDetalhe.Add(detalhe);
-                        OnLinhaLida(detalhe, linha);
+                        if (IdsRegistroDetalhe.Contains(DetalheRetorno.PrimeiroCaracter(linha)))
+                        {
+                            DetalheRetorno detalhe = banco.LerDetalheRetornoCNAB400(linha);
+                            ListaDetalhe.Add(detalhe);
+                            OnLinhaLida(detalhe, linha);
+                        }
+
                         linha = stream.ReadLine();
                     }
+
                 }
 
                 //TODO: Tratar Triller.
