@@ -521,7 +521,7 @@ namespace BoletoNet
                 else especieDocumento = boleto.EspecieDocumento.Codigo;
                 reg.CamposEDI.Add(new TCampoRegistroEDI(TTiposDadoEDI.ediNumericoSemSeparador_, 0148, 002, 0, especieDocumento, '0'));                          //148-149
                 reg.CamposEDI.Add(new TCampoRegistroEDI(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0150, 001, 0, boleto.Aceite, ' '));                             //150-150
-                reg.CamposEDI.Add(new TCampoRegistroEDI(TTiposDadoEDI.ediDataDDMMAA___________, 0151, 006, 0, boleto.DataProcessamento, ' '));                  //151-156
+                reg.CamposEDI.Add(new TCampoRegistroEDI(TTiposDadoEDI.ediDataDDMMAA___________, 0151, 006, 0, boleto.DataDocumento, ' '));                  //151-156
                 string vInstrucao = "00";
                 if (!(boleto.Instrucoes == null || boleto.Instrucoes.Count == 0))
                     vInstrucao = boleto.Instrucoes[0].Codigo.ToString();
