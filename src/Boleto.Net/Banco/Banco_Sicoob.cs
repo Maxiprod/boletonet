@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using System.Web.UI;
 using BoletoNet.Util;
@@ -556,8 +557,41 @@ namespace BoletoNet
 
                 _detalhe.Append(boleto.Aceite == "N" ? "0" : "1"); //Posição 150
                 _detalhe.Append(boleto.DataProcessamento.ToString("ddMMyy")); //Posição 151 a 156
-                _detalhe.Append("07"); //Posição 157 a 158 - NÂO PROTESTAR
-                _detalhe.Append("22"); //Posição 159 a 160 - PERMITIR DESCONTO SOMENTE ATE DATA ESTIPULADA
+
+                int primeiraInstrucao = 7;
+                int segundaInstrucao = 22;
+                int diasProtesto = 0;
+                if (boleto.Instrucoes.Any())
+                {
+                    int[] codigosInstrucoesDeProtesto = 
+                    {
+                        (int)EnumInstrucoes_Sicoob.Protestar3DiasUteis,
+                        (int)EnumInstrucoes_Sicoob.Protestar4DiasUteis,
+                        (int)EnumInstrucoes_Sicoob.Protestar5DiasUteis,
+                        (int)EnumInstrucoes_Sicoob.Protestar10DiasUteis,
+                        (int)EnumInstrucoes_Sicoob.Protestar15DiasUteis,
+                        (int)EnumInstrucoes_Sicoob.Protestar20DiasUteis,
+                    };
+
+                    var instrucaoDeProtesto = boleto.Instrucoes.FirstOrDefault(x => codigosInstrucoesDeProtesto.Contains(x.Codigo));
+                    
+                    if (instrucaoDeProtesto != null)
+                    {
+                        primeiraInstrucao = instrucaoDeProtesto.Codigo;
+                        diasProtesto = instrucaoDeProtesto.QuantidadeDias;
+                    }
+
+                    var instrucaoDeJuros = boleto.Instrucoes
+                        .FirstOrDefault(x => x.Codigo == (int)EnumInstrucoes_Sicoob.CobrarJuros);
+
+                    if (instrucaoDeJuros != null)
+                    {
+                        segundaInstrucao = (int)EnumInstrucoes_Sicoob.CobrarJuros;
+                    }
+                }
+
+                _detalhe.Append(primeiraInstrucao.ToString().PadLeft(2, '0')); // Posição 157 a 158
+                _detalhe.Append(segundaInstrucao.ToString().PadLeft(2, '0')); //Posição 159 a 160
                 _detalhe.Append(Utils.FitStringLength(Convert.ToInt32(boleto.PercJurosMora * 10000).ToString(), 6, 6, '0', 1, true, true, true)); //Posição 161 a 166
                 _detalhe.Append(Utils.FitStringLength(Convert.ToInt32(boleto.PercMulta * 10000).ToString(), 6, 6, '0', 1, true, true, true)); //Posição 167 a 172
                 _detalhe.Append(" "); //Posição 173
@@ -574,7 +608,7 @@ namespace BoletoNet
                 _detalhe.Append(Utils.FitStringLength(boleto.Sacado.Endereco.Cidade, 15, 15, ' ', 0, true, true, false)); //Posição 335 a 349
                 _detalhe.Append(boleto.Sacado.Endereco.UF); //Posição 350 a 351
                 _detalhe.Append(new string(' ', 40)); //Posição 352 a 391 - OBSERVACOES
-                _detalhe.Append("00"); //Posição 392 a 393 - DIAS PARA PROTESTO
+                _detalhe.Append(diasProtesto.ToString().PadLeft(2, '0')); //Posição 392 a 393 - DIAS PARA PROTESTO
                 _detalhe.Append(" "); //Posição 394
                 _detalhe.Append(Utils.FitStringLength(numeroRegistro.ToString(), 6, 6, '0', 0, true, true, true)); //Posição 394 a 400
 
