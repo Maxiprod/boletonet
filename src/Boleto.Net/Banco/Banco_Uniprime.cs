@@ -456,7 +456,7 @@ namespace BoletoNet
                     //Identificação da Empresa Cedente no Banco ==> 021 a 037 = 17 (Igual remessa)
                     // 0 + Carteira 3 + Agência 5 + Conta 7 + Digito 1 = 17
                     // ex: 00090750315206870
-                    Agencia = Utils.ToInt32(registro.Substring(24, 5)),
+                    Agencia = registro.Substring(24, 5),
                     Conta = Utils.ToInt32(registro.Substring(29, 7)),
                     DACConta = Utils.ToInt32(registro.Substring(36, 1)),
 

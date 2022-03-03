@@ -2501,9 +2501,7 @@ namespace BoletoNet
                 //detalhe. = reg.Zeros2;
 
                 // Para o Banco do Brasil, o dígito verificador da agência pode vir como X e deve ser substituído por 0
-                reg.PrefixoAgencia = reg.PrefixoAgencia.ToUpper().Replace("X", "0");
-                reg.DVPrefixoAgencia = reg.DVPrefixoAgencia.ToUpper().Replace("X", "0");
-                detalhe.Agencia = Utils.ToInt32(string.Concat(reg.PrefixoAgencia, reg.DVPrefixoAgencia));
+                detalhe.Agencia = string.Concat(reg.PrefixoAgencia, reg.DVPrefixoAgencia);
                 detalhe.Conta = Utils.ToInt32(reg.ContaCorrente);
                 detalhe.DACConta = Utils.ToInt32(reg.DVContaCorrente);
                 //detalhe. = reg.NumeroConvenioCobranca;

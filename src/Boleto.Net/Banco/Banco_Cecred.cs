@@ -1164,7 +1164,7 @@ namespace BoletoNet {
                 //detalhe. = reg.Identificacao;
                 //detalhe. = reg.Zeros1;
                 //detalhe. = reg.Zeros2;
-                detalhe.Agencia = Utils.ToInt32(String.Concat(reg.PrefixoAgencia, reg.DVPrefixoAgencia));
+                detalhe.Agencia = String.Concat(reg.PrefixoAgencia, reg.DVPrefixoAgencia);
                 detalhe.Conta = Utils.ToInt32(reg.ContaCorrente);
                 detalhe.DACConta = Utils.ToInt32(reg.DVContaCorrente);
                 //detalhe. = reg.NumeroConvenioCobranca;

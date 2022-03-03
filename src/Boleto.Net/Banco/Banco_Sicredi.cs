@@ -1226,7 +1226,7 @@ namespace BoletoNet
 
                 detalhe.CodigoInscricao = 0;
                 detalhe.NumeroInscricao = string.Empty;
-                detalhe.Agencia = 0;
+                detalhe.Agencia = string.Empty;
                 detalhe.Conta = header.Conta;
                 detalhe.DACConta = header.DACConta;
 

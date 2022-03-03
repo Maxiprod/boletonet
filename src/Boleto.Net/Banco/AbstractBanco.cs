@@ -352,7 +352,7 @@ namespace BoletoNet
                     {
                         CodigoInscricao = Utils.ToInt32(registro.Substring(1, 2)),
                         NumeroInscricao = registro.Substring(3, 14),
-                        Agencia = Utils.ToInt32(registro.Substring(17, 4)),
+                        Agencia = registro.Substring(17, 4),
                         Conta = Utils.ToInt32(registro.Substring(23, 5)),
                         DACConta = Utils.ToInt32(registro.Substring(28, 1)),
                         UsoEmpresa = registro.Substring(37, 25),

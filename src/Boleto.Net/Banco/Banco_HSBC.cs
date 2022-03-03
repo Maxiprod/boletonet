@@ -1494,7 +1494,7 @@ namespace BoletoNet
                     dataCredito = dataOcorrencia;
 
                     detalhe.NumeroInscricao = registro.Substring(3, 14);
-                    detalhe.Agencia = Utils.ToInt32(registro.Substring(18, 4));
+                    detalhe.Agencia = registro.Substring(18, 4);
                     detalhe.Conta = Utils.ToInt32(registro.Substring(24, 11));
                     detalhe.UsoEmpresa = registro.Substring(37, 25);
                     detalhe.Carteira = registro.Substring(107, 1);
@@ -1531,7 +1531,7 @@ namespace BoletoNet
                     dataCredito = Utils.ToInt32(registro.Substring(82, 6));
 
                     detalhe.NumeroInscricao = registro.Substring(3, 14);
-                    detalhe.Agencia = Utils.ToInt32(registro.Substring(17, 5));
+                    detalhe.Agencia = registro.Substring(17, 5);
                     detalhe.Conta = Utils.ToInt32(registro.Substring(24, 11));
                     detalhe.UsoEmpresa = registro.Substring(37, 16);
                     detalhe.NossoNumeroComDV = registro.Substring(62, 16);

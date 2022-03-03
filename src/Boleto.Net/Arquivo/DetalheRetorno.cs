@@ -73,7 +73,7 @@ namespace BoletoNet
             CodigoOcorrencia = 0;
             DACConta = 0;
             Conta = 0;
-            Agencia = 0;
+            Agencia = string.Empty;
             MotivoCodigoOcorrencia = string.Empty;
             MotivosRejeicao = string.Empty;
             NumeroProtocolo = string.Empty;
@@ -116,7 +116,7 @@ namespace BoletoNet
             CodigoOcorrencia = 0;
             DACConta = 0;
             Conta = 0;
-            Agencia = 0;
+            Agencia = string.Empty;
             _registro = registro;
             MotivoCodigoOcorrencia = string.Empty;
             MotivosRejeicao = string.Empty;
@@ -138,7 +138,7 @@ namespace BoletoNet
         /// <summary>
         /// Agência com o Dígito Verificador, quando houver
         /// </summary>
-        public int Agencia { get; set; }
+        public string Agencia { get; set; }
 
         public int Conta { get; set; }
 
@@ -350,7 +350,7 @@ namespace BoletoNet
 
                 CodigoInscricao = Utils.ToInt32(registro.Substring(1, 2));
                 _numeroInscricao = registro.Substring(3, 14);
-                Agencia = Utils.ToInt32(registro.Substring(17, 4));
+                Agencia = registro.Substring(17, 4);
                 Conta = Utils.ToInt32(registro.Substring(23, 5));
                 DACConta = Utils.ToInt32(registro.Substring(28, 1));
                 _usoEmpresa = registro.Substring(37, 25);

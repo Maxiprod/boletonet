@@ -1912,7 +1912,7 @@ namespace BoletoNet
                 detalhe.NumeroInscricao = registro.Substring(3, 14);
 
                 //Identificação da Empresa Cedente no Banco
-                detalhe.Agencia = Utils.ToInt32(registro.Substring(17, 4));
+                detalhe.Agencia = registro.Substring(17, 4);
                 detalhe.Conta = Utils.ToInt32(registro.Substring(21, 8));
 
                 //Nº Controle do Participante

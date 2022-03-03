@@ -1629,7 +1629,7 @@ namespace BoletoNet
 
                 detalhe.CodigoInscricao = Utils.ToInt32(registro.Substring(1, 2));
                 detalhe.NumeroInscricao = registro.Substring(3, 14);
-                detalhe.Agencia = Utils.ToInt32(registro.Substring(17, 4));
+                detalhe.Agencia = registro.Substring(17, 4);
                 detalhe.Conta = Utils.ToInt32(registro.Substring(23, 5));
                 detalhe.DACConta = Utils.ToInt32(registro.Substring(28, 1));
                 detalhe.UsoEmpresa = registro.Substring(37, 25);
