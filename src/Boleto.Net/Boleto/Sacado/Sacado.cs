@@ -10,6 +10,7 @@ namespace BoletoNet
         #region Variaveis
 
         private string _cpfcnpj = string.Empty;
+        private bool _isEmpresaSacadora = false;
         private string _nome = string.Empty;
         private Endereco _endereco = new Endereco();
         private InformacoesSacado _info = new InformacoesSacado();//Flavio(fhlviana@hotmail.com) - lista de todas as informações para serem apresentadas abaixo do nome do sacado
@@ -112,6 +113,21 @@ namespace BoletoNet
             set
             {
                 this._nome = value;
+            }
+        }
+
+        /// <summary>
+        /// Tem cadastrado 'Empresa Sacadora' na tela de cadastro de forma de pagamento e conta bancária.
+        /// </summary>
+        public bool IsEmpresaSacadora
+        {
+            get
+            {
+                return _isEmpresaSacadora;
+            }
+            set
+            {
+                this._isEmpresaSacadora = value;
             }
         }
 
