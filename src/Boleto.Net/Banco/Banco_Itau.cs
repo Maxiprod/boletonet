@@ -1245,20 +1245,20 @@ namespace BoletoNet
                 _detalhe += "0000000000000"; // Valor do IOF
                 _detalhe += "0000000000000"; // Valor do Abatimento
 
-                if (boleto.Sacado.CPFCNPJ.Length <= 11)
+                if (boleto.Pagador.CPFCNPJ.Length <= 11)
                     _detalhe += "01";  // CPF
                 else
                     _detalhe += "02"; // CNPJ
 
-                _detalhe += Utils.FitStringLength(boleto.Sacado.CPFCNPJ, 14, 14, '0', 0, true, true, true).ToUpper();
-                _detalhe += Utils.FitStringLength(boleto.Sacado.Nome.TrimStart(' '), 30, 30, ' ', 0, true, true, false);
+                _detalhe += Utils.FitStringLength(boleto.Pagador.CPFCNPJ, 14, 14, '0', 0, true, true, true).ToUpper();
+                _detalhe += Utils.FitStringLength(boleto.Pagador.Nome.TrimStart(' '), 30, 30, ' ', 0, true, true, false);
                 _detalhe += usoBanco;
-                _detalhe += Utils.FitStringLength(boleto.Sacado.Endereco.EndComNumeroEComplemento.TrimStart(' '), 40, 40, ' ', 0, true, true, false).ToUpper();
-                _detalhe += Utils.FitStringLength(boleto.Sacado.Endereco.Bairro.TrimStart(' '), 12, 12, ' ', 0, true, true, false).ToUpper();
-                _detalhe += Utils.FitStringLength(boleto.Sacado.Endereco.CEP, 8, 8, ' ', 0, true, true, false).ToUpper();
+                _detalhe += Utils.FitStringLength(boleto.Pagador.Endereco.EndComNumeroEComplemento.TrimStart(' '), 40, 40, ' ', 0, true, true, false).ToUpper();
+                _detalhe += Utils.FitStringLength(boleto.Pagador.Endereco.Bairro.TrimStart(' '), 12, 12, ' ', 0, true, true, false).ToUpper();
+                _detalhe += Utils.FitStringLength(boleto.Pagador.Endereco.CEP, 8, 8, ' ', 0, true, true, false).ToUpper();
                 ;
-                _detalhe += Utils.FitStringLength(boleto.Sacado.Endereco.Cidade, 15, 15, ' ', 0, true, true, false).ToUpper();
-                _detalhe += Utils.FitStringLength(boleto.Sacado.Endereco.UF, 2, 2, ' ', 0, true, true, false).ToUpper();
+                _detalhe += Utils.FitStringLength(boleto.Pagador.Endereco.Cidade, 15, 15, ' ', 0, true, true, false).ToUpper();
+                _detalhe += Utils.FitStringLength(boleto.Pagador.Endereco.UF, 2, 2, ' ', 0, true, true, false).ToUpper();
                 
                 // SACADOR/AVALISTA
                 // Normalmente deve ser preenchido com o nome do sacador/avalista. Alternativamente este campo poderá 
@@ -1328,7 +1328,6 @@ namespace BoletoNet
 
                     _detalhe += " "; // Complemento do registro
                 }               
-                
                 
                 _detalhe += Utils.FitStringLength(numeroRegistro.ToString(), 6, 6, '0', 0, true, true, true);
 

@@ -39,6 +39,7 @@ namespace BoletoNet
         private Boleto _boleto;
         private Cedente _cedente;
         private Sacado _sacado;
+        private Sacado _pagador;
         private List<IInstrucao> _instrucoes = new List<IInstrucao>();
         private string _instrucoesHtml = string.Empty;
         private bool _mostrarCodigoCarteira = false;
@@ -125,6 +126,7 @@ namespace BoletoNet
 
                 _cedente = _boleto.Cedente;
                 _sacado = _boleto.Sacado;
+                _pagador = _boleto.Pagador;
             }
         }
 
@@ -132,6 +134,12 @@ namespace BoletoNet
         public Sacado Sacado
         {
             get { return _sacado; }
+        }
+
+        [Browsable(false)]
+        public Sacado Pagador
+        {
+            get { return _pagador; }
         }
 
         [Browsable(false)]
@@ -189,7 +197,7 @@ namespace BoletoNet
         }
 
         [Browsable(true), Description("Oculta as intruções do boleto")]
-        public bool OcultarEnderecoSacado
+        public bool OcultarEnderecoPagador
         {
             get { return Utils.ToBool(ViewState["3"]); }
             set { ViewState["3"] = value; }
@@ -679,19 +687,19 @@ namespace BoletoNet
                 }
             }
 
-            string sacado = "";
+            string pagador = "";
             string cpfCnpj = string.Empty;
-            //Flavio(fhlviana@hotmail.com) - adicionei a possibilidade de o boleto não ter, necessáriamente, que informar o CPF ou CNPJ do sacado.
-            //Formata o CPF/CNPJ(se houver) e o Nome do Sacado para apresentação
-            if (Sacado.CPFCNPJ == string.Empty)
+            //Flavio(fhlviana@hotmail.com) - adicionei a possibilidade de o boleto não ter, necessáriamente, que informar o CPF ou CNPJ do pagador.
+            //Formata o CPF/CNPJ(se houver) e o Nome do pagador para apresentação
+            if (Pagador.CPFCNPJ == string.Empty)
             {
-                sacado = Sacado.Nome;
+                pagador = Pagador.Nome;
             }
             else
             {
-                sacado = Sacado.CPFCNPJ.Length <= 11
-                    ? string.Format("{0}  CPF: {1}", Sacado.Nome, Utils.FormataCPF(Sacado.CPFCNPJ))
-                    : string.Format("{0}  CNPJ: {1}", Sacado.Nome, Utils.FormataCNPJ(Sacado.CPFCNPJ));
+                pagador = Pagador.CPFCNPJ.Length <= 11
+                    ? string.Format("{0}  CPF: {1}", Pagador.Nome, Utils.FormataCPF(Pagador.CPFCNPJ))
+                    : string.Format("{0}  CNPJ: {1}", Pagador.Nome, Utils.FormataCNPJ(Pagador.CPFCNPJ));
             }
 
             if (!string.IsNullOrEmpty(Cedente.CPFCNPJ))
@@ -699,32 +707,32 @@ namespace BoletoNet
                 cpfCnpj = Cedente.CPFCNPJ.Length <= 11 ? Utils.FormataCPF(Cedente.CPFCNPJ) : Utils.FormataCNPJ(Cedente.CPFCNPJ);
             }
 
-            string infoSacado = Sacado.InformacoesSacado.GeraHTML(false);
+            string infoPagador = Pagador.InformacoesSacado.GeraHTML(false);
 
-            //Caso não oculte o Endereço do Sacado,
-            if (!OcultarEnderecoSacado)
+            //Caso não oculte o Endereço do pagador,
+            if (!OcultarEnderecoPagador)
             {
-                string enderecoSacado = "";
+                string enderecoPagador = "";
 
-                if (Sacado.Endereco.CEP == string.Empty)
-                    enderecoSacado = string.Format("{0} - {1}/{2}", Sacado.Endereco.Bairro, Sacado.Endereco.Cidade, Sacado.Endereco.UF);
+                if (Pagador.Endereco.CEP == string.Empty)
+                    enderecoPagador = string.Format("{0} - {1}/{2}", Pagador.Endereco.Bairro, Pagador.Endereco.Cidade, Pagador.Endereco.UF);
                 else
-                    enderecoSacado = string.Format("{0} - {1}/{2} - CEP: {3}", Sacado.Endereco.Bairro,
-                    Sacado.Endereco.Cidade, Sacado.Endereco.UF, Utils.FormataCEP(Sacado.Endereco.CEP));
+                    enderecoPagador = string.Format("{0} - {1}/{2} - CEP: {3}", Pagador.Endereco.Bairro,
+                    Pagador.Endereco.Cidade, Pagador.Endereco.UF, Utils.FormataCEP(Pagador.Endereco.CEP));
 
-                if (Sacado.Endereco.End != string.Empty && enderecoSacado != string.Empty)
+                if (Pagador.Endereco.End != string.Empty && enderecoPagador != string.Empty)
                 {
-                    string Numero = !string.IsNullOrEmpty(Sacado.Endereco.Numero) ? ", " + Sacado.Endereco.Numero : "";
+                    string Numero = !string.IsNullOrEmpty(Pagador.Endereco.Numero) ? ", " + Pagador.Endereco.Numero : "";
 
-                    if (infoSacado == string.Empty)
-                        infoSacado += InfoSacado.Render(Sacado.Endereco.End + Numero, enderecoSacado, false);
+                    if (infoPagador == string.Empty)
+                        infoPagador += InfoSacado.Render(Pagador.Endereco.End + Numero, enderecoPagador, false);
                     else
-                        infoSacado += InfoSacado.Render(Sacado.Endereco.End + Numero, enderecoSacado, true);
+                        infoPagador += InfoSacado.Render(Pagador.Endereco.End + Numero, enderecoPagador, true);
                 }
-                //"Informações do Sacado" foi introduzido para possibilitar que o boleto na informe somente o endereço do sacado
-                //como em outras situaçoes onde se imprime matriculas, codigos e etc, sobre o sacado.
-                //Sendo assim o endereço do sacado passa a ser uma Informaçao do Sacado que é adicionada no momento da renderização
-                //de acordo com a flag "OcultarEnderecoSacado"
+                //"Informações do pagador" foi introduzido para possibilitar que o boleto não informe somente o endereço do pagador
+                //como em outras situaçoes onde se imprime matriculas, codigos e etc, sobre o pagador.
+                //Sendo assim o endereço do pagador passa a ser uma Informaçao do pagador que é adicionada no momento da renderização
+                //de acordo com a flag "OcultarEnderecoPagador"
             }
 
             string agenciaConta = Utils.FormataAgenciaConta(Boleto.Banco.Codigo, Cedente.ContaBancaria.Agencia, Cedente.ContaBancaria.DigitoAgencia, Cedente.ContaBancaria.Conta, Cedente.ContaBancaria.DigitoConta);
@@ -878,8 +886,8 @@ namespace BoletoNet
                     "@DESCONTOS",
                     (Boleto.ValorDesconto == 0 ? "" : Boleto.ValorDesconto.ToString("C", CultureInfo.GetCultureInfo("PT-BR"))))
                 .Replace("@AGENCIACONTA", agenciaCodigoCedente)
-                .Replace("@SACADO", sacado)
-                .Replace("@INFOSACADO", infoSacado)
+                .Replace("@PAGADOR", pagador)
+                .Replace("@INFOPAGADOR", infoPagador)
                 .Replace("@AGENCIACODIGOCEDENTE", agenciaCodigoCedente)
                 .Replace("@CPFCNPJ", Cedente.CPFCNPJ)
                 .Replace(
