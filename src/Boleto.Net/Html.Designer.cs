@@ -19,7 +19,7 @@ namespace BoletoNet {
     // class via a tool like ResGen or Visual Studio.
     // To add or remove a member, edit your .ResX file then rerun ResGen
     // with the /str option, or rebuild your VS project.
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "15.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     internal class Html {
@@ -578,7 +578,7 @@ namespace BoletoNet {
         ///						&lt;td class=&quot;w659&quot;&gt;Pagador&lt;/td&gt;
         ///				&lt;/tr&gt;
         ///				&lt;tr class=&quot;cp h12&quot;&gt;
-        ///						&lt;td class=&quot;At&quot;&gt;@SACADO&lt;/td&gt;
+        ///						&lt;td class=&quot;At&quot;&gt;@PAGADOR&lt;/td&gt;
         ///				&lt;/tr&gt;
         ///		&lt;/table&gt;.
         /// </summary>
@@ -592,7 +592,7 @@ namespace BoletoNet {
         ///   Looks up a localized string similar to &lt;table class=&quot;w666&quot; style=&quot;margin: auto;&quot;&gt;
         ///				&lt;tr class=&quot;rBb&quot;&gt;
         ///						&lt;td class=&quot;w478 BL&quot;&gt;
-        ///								&lt;div class=&quot;cpN pL6&quot;&gt;@INFOSACADO&lt;/div&gt;
+        ///								&lt;div class=&quot;cpN pL6&quot;&gt;@INFOPAGADOR&lt;/div&gt;
         ///						&lt;/td&gt;
         ///						&lt;td class=&quot;Ab BL&quot;&gt;
         ///								&lt;div class=&quot;ctN pL6&quot;&gt;Cód. baixa&lt;/div&gt;
@@ -788,10 +788,10 @@ namespace BoletoNet {
         ///						&lt;td class=&quot;w659&quot;&gt;Pagador&lt;/td&gt;
         ///				&lt;/tr&gt;
         ///				&lt;tr class=&quot;cp h12&quot;&gt;
-        ///						&lt;td&gt;@SACADO&lt;/td&gt;
+        ///						&lt;td&gt;@PAGADOR&lt;/td&gt;
         ///				&lt;/tr&gt;
         ///				&lt;tr class=&quot;cp h12 rBb&quot;&gt;
-        ///						&lt;td&gt;@INFOSACADO&lt;/td&gt;
+        ///						&lt;td&gt;@INFOPAGADOR&lt;/td&gt;
         ///				&lt;/tr&gt;
         ///		&lt;/table&gt;.
         /// </summary>
