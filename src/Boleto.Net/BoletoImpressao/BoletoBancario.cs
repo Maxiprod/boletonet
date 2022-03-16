@@ -691,7 +691,7 @@ namespace BoletoNet
             string cpfCnpj = string.Empty;
             //Flavio(fhlviana@hotmail.com) - adicionei a possibilidade de o boleto não ter, necessáriamente, que informar o CPF ou CNPJ do pagador.
             //Formata o CPF/CNPJ(se houver) e o Nome do pagador para apresentação
-            if (Sacado.CPFCNPJ == string.Empty)
+            if (Pagador.CPFCNPJ == string.Empty)
             {
                 pagador = Pagador.Nome;
             }
