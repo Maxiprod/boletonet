@@ -47,6 +47,7 @@ namespace BoletoNet
 		private decimal _valorDesconto;
         private decimal _valorDescontoAntecipacao;
 		private Sacado _sacado;
+		private Sacado _pagador;
 		private bool _jurosPermanente;
 
 		private decimal _percJurosMora;
@@ -394,6 +395,15 @@ namespace BoletoNet
 		{
 			get { return this._sacado; }
 			set { this._sacado = value; }
+		}
+
+		/// <summary>
+		/// Dados do pagador
+		/// </summary>
+		public Sacado Pagador
+		{
+			get { return this._pagador; }
+			set { this._pagador = value; }
 		}
 
 		/// <summary>
