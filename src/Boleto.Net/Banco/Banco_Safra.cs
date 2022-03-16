@@ -1,4 +1,5 @@
 using System;
+using System.Text;
 using System.Web.UI;
 using BoletoNet;
 using BoletoNet.Util;
@@ -28,7 +29,7 @@ namespace BoletoNet
         /// </summary>
         internal Banco_Safra()
         {
-            this.Codigo = 422;
+            this.Codigo = (int)Enums.Bancos.Safra;
             this.Digito = "7";
             this.Nome = "Banco_Safra";
         }
@@ -77,6 +78,187 @@ namespace BoletoNet
         public override string GerarHeaderRemessa(string numeroConvenio, Cedente cedente, TipoArquivo tipoArquivo, int numeroArquivoRemessa, Boleto boletos)
         {
             throw new NotImplementedException("Função não implementada.");
+        }
+
+        public override string GerarHeaderRemessa(Cedente cedente, TipoArquivo tipoArquivo, int numeroArquivoRemessa)
+        {
+            return GerarHeaderRemessa("0", cedente, tipoArquivo, numeroArquivoRemessa);
+        }
+
+        public override string GerarHeaderRemessa(string numeroConvenio, Cedente cedente, TipoArquivo tipoArquivo, int numeroArquivoRemessa)
+        {
+            try
+            {
+                string _header = " ";
+
+                base.GerarHeaderRemessa("0", cedente, tipoArquivo, numeroArquivoRemessa);
+
+                switch (tipoArquivo)
+                {
+
+                    case TipoArquivo.CNAB240:
+                        _header = GerarHeaderRemessaCNAB240(cedente, numeroArquivoRemessa);
+                        break;
+                    case TipoArquivo.CNAB400:
+                        throw new NotImplementedException("Remessa não implementada!");
+                    case TipoArquivo.Outro:
+                        throw new Exception("Tipo de arquivo inexistente.");
+                }
+
+                return _header;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro durante a geração do HEADER do arquivo de REMESSA.", ex);
+            }
+        }
+
+        private string GerarHeaderRemessaCNAB240(Cedente cedente, int numeroArquivoRemessa)
+        {
+            try
+            {
+                StringBuilder header = new StringBuilder(240);
+                // Código do Banco na compensação
+                header.Append(Codigo.ToString("D3"));
+                // Lote de Serviço
+                header.Append("0000");
+                // tipo de Registro
+                header.Append("0");
+                // Brancos
+                header.AppendFormat("{0,9}", " ");
+                // Tipo de Inscrição da Empresa
+                header.Append(cedente.CPFCNPJ.Length == 11 ? "1" : "2");
+                // Número de Inscrição da Empresa
+                header.Append(Utils.FormatCode(cedente.CPFCNPJ, "0", 14, true));
+                // Código do Convênio no Banco
+                header.AppendFormat("{0,20}", " ");
+
+                // Agencia e Conta
+                if (cedente != null && cedente.ContaBancaria != null)
+                {
+                    // Agência Mantenedora da Conta
+                    header.Append(Utils.FormatCode(cedente.ContaBancaria.Agencia, "0", 5, true));
+                    // Dígito Verificador da Agência
+                    header.Append(" ");
+                    // Número da Conta Corrente
+                    header.Append(Utils.FormatCode(cedente.ContaBancaria.Conta, "0", 12, true));
+                    // Dígito Verificador da Conta
+                    header.Append(string.IsNullOrEmpty(cedente.ContaBancaria.DigitoConta) ? " " : cedente.ContaBancaria.DigitoConta);
+                }
+                else
+                {
+                    header.Append(new string('0', 19));
+                }
+
+                // Dígito Verificador da Ag/Conta
+                header.Append(" ");
+                // Nome da Empresa
+                header.Append(Utils.FitStringLength(cedente.Nome, 30, 30, ' ', 0, true, true, false));
+                // Nome do Banco
+                header.Append(Utils.FormatCode("Banco Safra S/A", " ", 30));
+                // Brancos
+                header.AppendFormat("{0,10}", " ");
+                // Código Remessa / Retorno: '1' = Remessa (Cliente Banco)
+                header.Append("1");
+                // Data de Geração do Arquivo. 
+                header.Append(DateTime.Now.ToString("ddMMyyyy"));
+                // Hora da Geração do Arquivo.
+                header.Append("000000");
+                // Número Seqüencial do Arquivo
+                header.Append(numeroArquivoRemessa.ToString("D6"));
+                // No da Versão do Layout do Arquivo
+                header.Append("103");
+                // Densidade de Gravação do Arquivo
+                header.Append("00000");
+                // Para Uso Reservado do Banco / Empresa / FEBRABAN / CNAB
+                header.AppendFormat("{0,69}", " ");
+
+                return Utils.SubstituiCaracteresEspeciais(header.ToString());
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao gerar HEADER do arquivo de remessa do CNAB240.", ex);
+            }
+        }
+
+        public override string GerarHeaderLoteRemessa(string numeroConvenio, Cedente cedente, int numeroArquivoRemessa, TipoArquivo tipoArquivo)
+        {
+            try
+            {
+                string header = " ";
+
+                switch (tipoArquivo)
+                {
+
+                    case TipoArquivo.CNAB240:
+                        header = GerarHeaderLoteRemessaCNAB240(cedente, numeroArquivoRemessa);
+                        break;
+                    case TipoArquivo.CNAB400:
+                        header = GerarHeaderLoteRemessaCNAB400(0, cedente, numeroArquivoRemessa);
+                        break;
+                    case TipoArquivo.Outro:
+                        throw new Exception("Tipo de arquivo inexistente.");
+                }
+
+                return header;
+
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro durante a geração do HEADER DO LOTE do arquivo de REMESSA.", ex);
+            }
+        }
+
+        private string GerarHeaderLoteRemessaCNAB240(Cedente cedente, int numeroArquivoRemessa)
+        {
+            try
+            {
+                StringBuilder header = new StringBuilder(240);
+                // Código do Banco na compensação
+                header.Append(Codigo.ToString("D3")); 
+                
+                header.Append("0001");
+                header.Append("1");
+                header.Append("R");
+                header.Append("01");
+                header.Append("  ");
+                header.Append("060");
+                header.Append(" ");
+
+                header.Append(cedente.CPFCNPJ.Length == 11 ? "1" : "2");
+                header.Append(Utils.FormatCode(cedente.CPFCNPJ, "0", 15, true));
+                header.Append(Utils.FormatCode("", " ", 20));
+                header.Append(" ");
+
+                if (cedente != null && cedente.ContaBancaria != null)
+                {
+                    header.Append(Utils.FormatCode(cedente.ContaBancaria.Conta, "0", 12, true));
+                    header.Append(string.IsNullOrEmpty(cedente.ContaBancaria.DigitoConta) ? " " : cedente.ContaBancaria.DigitoConta);
+                    header.Append(" ");
+                }
+                else
+                {
+                    header.Append(new string('0', 14));
+                }
+
+                header.Append(Utils.FitStringLength(cedente.Nome, 30, 30, ' ', 0, true, true, false);
+
+                header.Append(Utils.FormatCode("", " ", 40));
+                header.Append(Utils.FormatCode("", " ", 40));
+
+                header.Append(Utils.FormatCode("", "0", 8, true));
+
+                header.Append(DateTime.Now.ToString("ddMMyyyy"));
+                header.Append(Utils.FormatCode("", "0", 8, true));
+                header.Append(Utils.FormatCode("", " ", 33));
+
+                return Utils.SubstituiCaracteresEspeciais(header.ToString());
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Erro ao gerar HEADER DO LOTE do arquivo de remessa.", e);
+            }
         }
 
         public override void ValidaBoleto(Boleto boleto)
