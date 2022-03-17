@@ -39,13 +39,11 @@ namespace BoletoNet
         /// </summary>
         public string CalcularDigitoNossoNumero(Boleto boleto)
         {
-            string sfCarteira = boleto.Carteira.ToString();
-
-
             if (boleto.NossoNumero.Length < 9)
             {
                 throw new IndexOutOfRangeException("Erro. O campo 'Nosso Número' deve ter mais de 9 digitos. Você digitou " + boleto.NossoNumero);
             }
+
             string sfNossoNumero = boleto.NossoNumero.Substring(0, 8);
             int sfDigitoNossoNumero = Mod11(sfNossoNumero, 9, 0);
             string sfDigito = "";
@@ -56,7 +54,6 @@ namespace BoletoNet
                 sfDigito = Convert.ToString(11 - sfDigitoNossoNumero);
 
             return sfDigito;
-
         }
 
 
@@ -195,8 +192,7 @@ namespace BoletoNet
                         header = GerarHeaderLoteRemessaCNAB240(cedente, numeroArquivoRemessa);
                         break;
                     case TipoArquivo.CNAB400:
-                        header = GerarHeaderLoteRemessaCNAB400(0, cedente, numeroArquivoRemessa);
-                        break;
+                        throw new NotImplementedException("Remessa não implementada!");
                     case TipoArquivo.Outro:
                         throw new Exception("Tipo de arquivo inexistente.");
                 }
@@ -229,10 +225,11 @@ namespace BoletoNet
                 header.Append(cedente.CPFCNPJ.Length == 11 ? "1" : "2");
                 header.Append(Utils.FormatCode(cedente.CPFCNPJ, "0", 15, true));
                 header.Append(Utils.FormatCode("", " ", 20));
-                header.Append(" ");
 
                 if (cedente != null && cedente.ContaBancaria != null)
                 {
+                    header.Append(Utils.FormatCode(cedente.ContaBancaria.Agencia, "0", 5, true));
+                    header.Append(" ");
                     header.Append(Utils.FormatCode(cedente.ContaBancaria.Conta, "0", 12, true));
                     header.Append(string.IsNullOrEmpty(cedente.ContaBancaria.DigitoConta) ? " " : cedente.ContaBancaria.DigitoConta);
                     header.Append(" ");
@@ -242,7 +239,7 @@ namespace BoletoNet
                     header.Append(new string('0', 14));
                 }
 
-                header.Append(Utils.FitStringLength(cedente.Nome, 30, 30, ' ', 0, true, true, false);
+                header.Append(Utils.FitStringLength(cedente.Nome, 30, 30, ' ', 0, true, true, false));
 
                 header.Append(Utils.FormatCode("", " ", 40));
                 header.Append(Utils.FormatCode("", " ", 40));
@@ -304,26 +301,26 @@ namespace BoletoNet
                 segmentoP.Append(Utils.FitStringLength(numeroRegistro.ToString(), 5, 5, '0', 0, true, true, true));
                 segmentoP.Append("P");
                 segmentoP.Append(" ");
-                segmentoP.Append(TipoOcorrenciaRemessa.EntradaDeTitulos);
+                segmentoP.Append(ObterCodigoDaOcorrencia(boleto));
                 segmentoP.Append(Utils.FitStringLength(boleto.Cedente.ContaBancaria.Agencia, 5, 5, '0', 0, true, true, true));
                 segmentoP.Append(" ");
                 segmentoP.Append(Utils.FitStringLength(boleto.Cedente.ContaBancaria.Conta, 12, 12, '0', 0, true, true, true));
                 segmentoP.Append(Utils.FormatCode(string.IsNullOrEmpty(boleto.Cedente.ContaBancaria.DigitoConta) ? " " : boleto.Cedente.ContaBancaria.DigitoConta, " ", 1, true));
                 segmentoP.Append(" ");
-                segmentoP.Append(Utils.FitStringLength(boleto.NossoNumero, 8, 8, '0', 0, true, true, true));
+                segmentoP.Append(Utils.FitStringLength(boleto.NossoNumero, 9, 9, '0', 0, true, true, true));
                 segmentoP.Append(Utils.FitStringLength(boleto.DigitoNossoNumero, 1, 1, '0', 1, true, true, true));
                 segmentoP.Append(Utils.FormatCode("", " ", 10));
 
+                segmentoP.Append(Convert.ToInt16(boleto.Carteira) == 1 ? "1" : "2");
                 segmentoP.Append("1");
-                segmentoP.Append("1");
-                segmentoP.Append("2");
                 segmentoP.Append("2");
                 segmentoP.Append("2");
                 segmentoP.Append("2");
 
-                segmentoP.Append(Utils.FitStringLength(boleto.NumeroDocumento, 10, 10, ' ', 0, true, true, false);
-                segmentoP.Append(Utils.FitStringLength(boleto.DataVencimento.ToString("ddMMyyyy"), 8, 8, ' ', 0, true, true, false);
-                segmentoP.Append(Utils.FitStringLength(boleto.ValorBoleto.ApenasNumeros(), 15, 15, '0', 0, true, true, true);
+                segmentoP.Append(Utils.FitStringLength(boleto.NumeroDocumento, 10, 10, ' ', 0, true, true, false));
+                segmentoP.Append("00000");
+                segmentoP.Append(Utils.FitStringLength(boleto.DataVencimento.ToString("ddMMyyyy"), 8, 8, ' ', 0, true, true, false));
+                segmentoP.Append(Utils.FitStringLength(boleto.ValorBoleto.ApenasNumeros(), 15, 15, '0', 0, true, true, true));
                 segmentoP.Append(Utils.FitStringLength(boleto.Cedente.ContaBancaria.Agencia, 5, 5, '0', 0, true, true, true));
                 segmentoP.Append(" ");
                 segmentoP.Append(Utils.FitStringLength(boleto.EspecieDocumento.Codigo.ToString(), 2, 2, '0', 0, true, true, true));
@@ -332,7 +329,7 @@ namespace BoletoNet
 
                 segmentoP.Append(Utils.FormatCode(CodJurosMora, 1));
                 segmentoP.Append(Utils.FitStringLength(boleto.DataJurosMora.ToString("ddMMyyyy"), 8, 8, ' ', 0, true, true, false));
-                segmentoP.Append(Utils.FitStringLength(boleto.JurosMora.ApenasNumeros(), 15, 15, '0', 0, true, true, true);
+                segmentoP.Append(Utils.FitStringLength(boleto.JurosMora.ApenasNumeros(), 15, 15, '0', 0, true, true, true));
                 segmentoP.Append("1");
 
                 if (boleto.DataDesconto > DateTime.MinValue)
@@ -353,8 +350,8 @@ namespace BoletoNet
 
                 segmentoP.Append(Utils.FormatCode(vInstrucao1, 2));
 
-                segmentoP.Append(baixaDevolver ? "1" : "2"));
-                segmentoP.Append(diasDevolucao.ToString("00"));
+                segmentoP.Append(baixaDevolver ? "1" : "2");
+                segmentoP.Append(diasDevolucao.ToString("000"));
 
                 segmentoP.Append("09");
                 segmentoP.Append("0000000000");
@@ -380,7 +377,7 @@ namespace BoletoNet
                 segmentoQ.Append(Utils.FitStringLength(numeroRegistro.ToString(), 5, 5, '0', 0, true, true, true));
                 segmentoQ.Append("Q");
                 segmentoQ.Append(" ");
-                segmentoQ.Append(TipoOcorrenciaRemessa.EntradaDeTitulos);
+                segmentoQ.Append(ObterCodigoDaOcorrencia(boleto));
 
                 segmentoQ.Append(boleto.Sacado.CPFCNPJ.Length == 11 ? "1" : "2");
                 segmentoQ.Append(Utils.FormatCode(boleto.Sacado.CPFCNPJ, "0", 15, true));
@@ -389,7 +386,7 @@ namespace BoletoNet
                 segmentoQ.Append(Utils.FitStringLength(boleto.Sacado.Endereco.Bairro.TrimStart(' '), 15, 15, ' ', 0, true, true, false).ToUpper());
                 segmentoQ.Append(Utils.FitStringLength(boleto.Sacado.Endereco.CEP, 8, 8, ' ', 0, true, true, false).ToUpper());
                 segmentoQ.Append(Utils.FitStringLength(boleto.Sacado.Endereco.Cidade.TrimStart(' '), 15, 15, ' ', 0, true, true, false).ToUpper());
-                segmentoQ.Append(Utils.FitStringLength(boleto.Sacado.Endereco.UF, 2, 2, ' ', 0, true, true, false).ToUpper();
+                segmentoQ.Append(Utils.FitStringLength(boleto.Sacado.Endereco.UF, 2, 2, ' ', 0, true, true, false).ToUpper());
 
                 segmentoQ.Append(boleto.Cedente.CPFCNPJ.Length == 11 ? "1" : "2");
                 segmentoQ.Append(Utils.FormatCode(boleto.Cedente.CPFCNPJ, "0", 15, true));
@@ -477,7 +474,7 @@ namespace BoletoNet
                 header.Append(Utils.FormatCode("", "0", 6));
 
                 header.Append(Utils.FormatCode("", " ", 17));
-                header.Append(Utils.FormatCode("", " ", 7));
+                header.Append(Utils.FormatCode("", " ", 8));
                 header.Append(Utils.FormatCode("", " ", 117));
 
                 return Utils.SubstituiCaracteresEspeciais(header.ToString());
