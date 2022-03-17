@@ -367,6 +367,7 @@ namespace BoletoNet
                 throw new Exception("Erro durante a geração do SEGMENTO P DO DETALHE do arquivo de REMESSA.", ex);
             }
         }
+
         public override string GerarDetalheSegmentoQRemessa(Boleto boleto, int numeroRegistro, TipoArquivo tipoArquivo)
         {
             try
@@ -405,6 +406,7 @@ namespace BoletoNet
                 throw new Exception("Erro durante a geração do SEGMENTO Q DO DETALHE do arquivo de REMESSA.", ex);
             }
         }
+
         public override string GerarDetalheSegmentoRRemessa(Boleto boleto, int numeroRegistro, TipoArquivo tipoArquivo)
         {
             try
@@ -448,6 +450,65 @@ namespace BoletoNet
             catch (Exception ex)
             {
                 throw new Exception("Erro durante a geração do SEGMENTO R DO DETALHE do arquivo de REMESSA.", ex);
+            }
+        }
+
+        public override string GerarTrailerLoteRemessa(int numeroRegistro)
+        {
+            try
+            {
+                StringBuilder header = new StringBuilder(240);
+
+                header.Append(Codigo.ToString("D3")); 
+                
+                header.Append("0001");
+                header.Append("5");
+                header.Append(Utils.FormatCode("", " ", 9));
+                header.Append(Utils.FormatCode(numeroRegistro.ToString(), "0", 6, true));
+
+                header.Append(Utils.FormatCode("", "0", 6));
+                header.Append(Utils.FormatCode("", "0", 17));
+
+                header.Append(Utils.FormatCode("", "0", 6));
+                header.Append(Utils.FormatCode("", "0", 17));
+
+                header.Append(Utils.FormatCode("", "0", 6));
+                header.Append(Utils.FormatCode("", "0", 17));
+                header.Append(Utils.FormatCode("", "0", 6));
+
+                header.Append(Utils.FormatCode("", " ", 17));
+                header.Append(Utils.FormatCode("", " ", 7));
+                header.Append(Utils.FormatCode("", " ", 117));
+
+                return Utils.SubstituiCaracteresEspeciais(header.ToString());
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Erro ao gerar Trailer de Lote do arquivo de remessa.", e);
+            }
+        }
+
+        public override string GerarTrailerArquivoRemessa(int numeroRegistro)
+        {
+            try
+            {
+                StringBuilder header = new StringBuilder(240);
+
+                header.Append(Codigo.ToString("D3"));
+
+                header.Append("9999");
+                header.Append("9");
+                header.Append(Utils.FormatCode("", " ", 9));
+                header.Append("000001");
+                header.Append(Utils.FormatCode(numeroRegistro.ToString(), "0", 6, true));
+                header.Append(Utils.FormatCode("", "0", 6));
+                header.Append(Utils.FormatCode("", " ", 205));
+
+                return Utils.SubstituiCaracteresEspeciais(header.ToString());
+            }
+            catch (Exception e)
+            {
+                throw new Exception("Erro ao gerar Trailer de arquivo de remessa.", e);
             }
         }
 
