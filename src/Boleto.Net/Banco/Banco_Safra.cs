@@ -261,6 +261,196 @@ namespace BoletoNet
             }
         }
 
+        public override string GerarDetalheSegmentoPRemessa(Boleto boleto, int numeroRegistro, string numeroConvenio)
+        {
+            try
+            {
+                string CodJurosMora = boleto.CodJurosMora;
+                if (string.IsNullOrEmpty(CodJurosMora))
+                {
+                    if (boleto.JurosMora == 0 && boleto.PercJurosMora == 0)
+                    {
+                        CodJurosMora = "3";
+                    }
+                    else
+                    {
+                        CodJurosMora = "1";
+                    }
+                }
+
+                string vInstrucao1 = "00";
+                bool baixaDevolver = false;
+                int diasDevolucao = 0;
+                foreach (IInstrucao instrucao in boleto.Instrucoes)
+                {
+                    switch (instrucao.Codigo)
+                    {
+                        case 1:
+                            vInstrucao1 = Utils.FitStringLength(instrucao.QuantidadeDias.ToString(), 2, 2, '0', 0, true, true, true);
+                            break;
+                        case 91:
+                        case 92:
+                            baixaDevolver = true;
+                            diasDevolucao = instrucao.QuantidadeDias;
+                            break;
+                    }
+                }
+
+                StringBuilder segmentoP = new StringBuilder(240);
+
+                segmentoP.Append(Codigo.ToString("D3"));
+                segmentoP.Append("0001");
+                segmentoP.Append("3");
+                segmentoP.Append(Utils.FitStringLength(numeroRegistro.ToString(), 5, 5, '0', 0, true, true, true));
+                segmentoP.Append("P");
+                segmentoP.Append(" ");
+                segmentoP.Append(TipoOcorrenciaRemessa.EntradaDeTitulos);
+                segmentoP.Append(Utils.FitStringLength(boleto.Cedente.ContaBancaria.Agencia, 5, 5, '0', 0, true, true, true));
+                segmentoP.Append(" ");
+                segmentoP.Append(Utils.FitStringLength(boleto.Cedente.ContaBancaria.Conta, 12, 12, '0', 0, true, true, true));
+                segmentoP.Append(Utils.FormatCode(string.IsNullOrEmpty(boleto.Cedente.ContaBancaria.DigitoConta) ? " " : boleto.Cedente.ContaBancaria.DigitoConta, " ", 1, true));
+                segmentoP.Append(" ");
+                segmentoP.Append(Utils.FitStringLength(boleto.NossoNumero, 8, 8, '0', 0, true, true, true));
+                segmentoP.Append(Utils.FitStringLength(boleto.DigitoNossoNumero, 1, 1, '0', 1, true, true, true));
+                segmentoP.Append(Utils.FormatCode("", " ", 10));
+
+                segmentoP.Append("1");
+                segmentoP.Append("1");
+                segmentoP.Append("2");
+                segmentoP.Append("2");
+                segmentoP.Append("2");
+                segmentoP.Append("2");
+
+                segmentoP.Append(Utils.FitStringLength(boleto.NumeroDocumento, 10, 10, ' ', 0, true, true, false);
+                segmentoP.Append(Utils.FitStringLength(boleto.DataVencimento.ToString("ddMMyyyy"), 8, 8, ' ', 0, true, true, false);
+                segmentoP.Append(Utils.FitStringLength(boleto.ValorBoleto.ApenasNumeros(), 15, 15, '0', 0, true, true, true);
+                segmentoP.Append(Utils.FitStringLength(boleto.Cedente.ContaBancaria.Agencia, 5, 5, '0', 0, true, true, true));
+                segmentoP.Append(" ");
+                segmentoP.Append(Utils.FitStringLength(boleto.EspecieDocumento.Codigo.ToString(), 2, 2, '0', 0, true, true, true));
+                segmentoP.Append(Utils.FormatCode(boleto.Aceite, 1));
+                segmentoP.Append(Utils.FormatCode(boleto.DataProcessamento.ToString("ddMMyyyy"), 8));
+
+                segmentoP.Append(Utils.FormatCode(CodJurosMora, 1));
+                segmentoP.Append(Utils.FitStringLength(boleto.DataJurosMora.ToString("ddMMyyyy"), 8, 8, ' ', 0, true, true, false));
+                segmentoP.Append(Utils.FitStringLength(boleto.JurosMora.ApenasNumeros(), 15, 15, '0', 0, true, true, true);
+                segmentoP.Append("1");
+
+                if (boleto.DataDesconto > DateTime.MinValue)
+                {
+                    segmentoP.Append(Utils.FormatCode(boleto.DataDesconto.ToString("ddMMyyyy"), 8));
+                    segmentoP.Append(Utils.FormatCode(boleto.ValorDesconto.ToString("f").Replace(",", "").Replace(".", ""), 15));
+                }
+                else
+                {
+                    segmentoP.Append(Utils.FormatCode("", "0", 8, true));
+                    segmentoP.Append(Utils.FormatCode("", "0", 15, true));
+                }
+
+                segmentoP.Append(Utils.FormatCode(boleto.IOF.ToString(), 15));
+                segmentoP.Append(Utils.FormatCode(boleto.Abatimento.ToString(), 15));
+                segmentoP.Append(Utils.FormatCode(boleto.NumeroDocumento, " ", 25));
+                segmentoP.Append("3");
+
+                segmentoP.Append(Utils.FormatCode(vInstrucao1, 2));
+
+                segmentoP.Append(baixaDevolver ? "1" : "2"));
+                segmentoP.Append(diasDevolucao.ToString("00"));
+
+                segmentoP.Append("09");
+                segmentoP.Append("0000000000");
+                segmentoP.Append(" ");
+
+                return Utils.SubstituiCaracteresEspeciais(segmentoP.ToString());
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro durante a geração do SEGMENTO P DO DETALHE do arquivo de REMESSA.", ex);
+            }
+        }
+        public override string GerarDetalheSegmentoQRemessa(Boleto boleto, int numeroRegistro, TipoArquivo tipoArquivo)
+        {
+            try
+            {
+                StringBuilder segmentoQ = new StringBuilder(240);
+
+                segmentoQ.Append(Codigo.ToString("D3"));
+                segmentoQ.Append("0001");
+                segmentoQ.Append("3");
+                segmentoQ.Append(Utils.FitStringLength(numeroRegistro.ToString(), 5, 5, '0', 0, true, true, true));
+                segmentoQ.Append("Q");
+                segmentoQ.Append(" ");
+                segmentoQ.Append(TipoOcorrenciaRemessa.EntradaDeTitulos);
+
+                segmentoQ.Append(boleto.Sacado.CPFCNPJ.Length == 11 ? "1" : "2");
+                segmentoQ.Append(Utils.FormatCode(boleto.Sacado.CPFCNPJ, "0", 15, true));
+                segmentoQ.Append(Utils.FitStringLength(boleto.Sacado.Nome.TrimStart(' '), 40, 40, ' ', 0, true, true, false).ToUpper());
+                segmentoQ.Append(Utils.FitStringLength(boleto.Sacado.Endereco.End.TrimStart(' '), 40, 40, ' ', 0, true, true, false).ToUpper());
+                segmentoQ.Append(Utils.FitStringLength(boleto.Sacado.Endereco.Bairro.TrimStart(' '), 15, 15, ' ', 0, true, true, false).ToUpper());
+                segmentoQ.Append(Utils.FitStringLength(boleto.Sacado.Endereco.CEP, 8, 8, ' ', 0, true, true, false).ToUpper());
+                segmentoQ.Append(Utils.FitStringLength(boleto.Sacado.Endereco.Cidade.TrimStart(' '), 15, 15, ' ', 0, true, true, false).ToUpper());
+                segmentoQ.Append(Utils.FitStringLength(boleto.Sacado.Endereco.UF, 2, 2, ' ', 0, true, true, false).ToUpper();
+
+                segmentoQ.Append(boleto.Cedente.CPFCNPJ.Length == 11 ? "1" : "2");
+                segmentoQ.Append(Utils.FormatCode(boleto.Cedente.CPFCNPJ, "0", 15, true));
+                segmentoQ.Append(Utils.FitStringLength(boleto.Cedente.Nome.TrimStart(' '), 40, 40, ' ', 0, true, true, false).ToUpper());
+
+                segmentoQ.Append("000");
+                segmentoQ.Append(Utils.FormatCode("", " ", 20));
+                segmentoQ.Append(Utils.FormatCode("", " ", 8));
+
+                return Utils.SubstituiCaracteresEspeciais(segmentoQ.ToString());
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro durante a geração do SEGMENTO Q DO DETALHE do arquivo de REMESSA.", ex);
+            }
+        }
+        public override string GerarDetalheSegmentoRRemessa(Boleto boleto, int numeroRegistro, TipoArquivo tipoArquivo)
+        {
+            try
+            {
+                StringBuilder segmentoR = new StringBuilder(240);
+
+                segmentoR.Append(Codigo.ToString("D3"));
+                segmentoR.Append("0001");
+                segmentoR.Append("3");
+                segmentoR.Append(Utils.FitStringLength(numeroRegistro.ToString(), 5, 5, '0', 0, true, true, true));
+                segmentoR.Append("R");
+                segmentoR.Append(" ");
+                segmentoR.Append(TipoOcorrenciaRemessa.EntradaDeTitulos);
+
+                segmentoR.Append("0");
+                segmentoR.Append(new string('0', 8));
+                segmentoR.Append(new string('0', 15));
+                segmentoR.Append("0");
+                segmentoR.Append(new string('0', 8));
+                segmentoR.Append(new string('0', 15));
+
+                segmentoR.Append("2");
+                segmentoR.Append(Utils.FitStringLength(boleto.DataMulta.ToString("ddMMyyyy"), 8, 8, '0', 0, true, true, false));
+                segmentoR.Append(Utils.FitStringLength(boleto.ValorMulta.ApenasNumeros(), 15, 15, '0', 0, true, true, true));
+
+                segmentoR.Append(Utils.FormatCode("", " ", 10));
+                segmentoR.Append(Utils.FormatCode("", " ", 40));
+                segmentoR.Append(Utils.FormatCode("", " ", 40));
+                segmentoR.Append(Utils.FormatCode("", " ", 20));
+                segmentoR.Append(Utils.FormatCode("", " ", 8));
+                segmentoR.Append(Utils.FormatCode("", " ", 3));
+                segmentoR.Append(Utils.FormatCode("", " ", 5));
+                segmentoR.Append(" ");
+                segmentoR.Append(Utils.FormatCode("", " ", 12));
+                segmentoR.Append(" ");
+                segmentoR.Append(" ");
+                segmentoR.Append(Utils.FormatCode("", " ", 9));
+
+                return Utils.SubstituiCaracteresEspeciais(segmentoR.ToString());
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro durante a geração do SEGMENTO R DO DETALHE do arquivo de REMESSA.", ex);
+            }
+        }
+
         public override void ValidaBoleto(Boleto boleto)
         {
 
