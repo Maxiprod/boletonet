@@ -86,15 +86,14 @@ namespace BoletoNet
         {
             try
             {
-                string _header = " ";
+                string header = " ";
 
                 base.GerarHeaderRemessa("0", cedente, tipoArquivo, numeroArquivoRemessa);
 
                 switch (tipoArquivo)
                 {
-
                     case TipoArquivo.CNAB240:
-                        _header = GerarHeaderRemessaCNAB240(cedente, numeroArquivoRemessa);
+                        header = GerarHeaderRemessaCNAB240(cedente, numeroArquivoRemessa);
                         break;
                     case TipoArquivo.CNAB400:
                         throw new NotImplementedException("Remessa não implementada!");
@@ -102,7 +101,7 @@ namespace BoletoNet
                         throw new Exception("Tipo de arquivo inexistente.");
                 }
 
-                return _header;
+                return header;
 
             }
             catch (Exception ex)
@@ -163,7 +162,6 @@ namespace BoletoNet
 
                 switch (tipoArquivo)
                 {
-
                     case TipoArquivo.CNAB240:
                         header = GerarHeaderLoteRemessaCNAB240(cedente, numeroArquivoRemessa);
                         break;
@@ -174,7 +172,6 @@ namespace BoletoNet
                 }
 
                 return header;
-
             }
             catch (Exception ex)
             {
