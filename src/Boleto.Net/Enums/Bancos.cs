@@ -14,6 +14,7 @@ namespace BoletoNet.Enums
         HSBC = 399,
         Itau = 341,
         Maxima = 243,
+        Safra = 422,
         [Description("033")]
         Santander = 33,
         Sicredi = 748,

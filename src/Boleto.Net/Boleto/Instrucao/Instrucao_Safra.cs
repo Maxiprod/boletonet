@@ -8,15 +8,9 @@ namespace BoletoNet
 
     public enum EnumInstrucoes_Safra
     {
-        PedidoBaixa = 2,
-        ConcessaoAbatimento = 4,
-        CancelamentoAbatimentoConcedido = 5,
-        AlteracaoVencimento = 6,
-        Protestar = 9,
-        NaoProtestar = 10,
-        NaoCobrarJurosDeMora = 11,
-        JurosdeMora = 16,
-        AlteracaoOutrosDados = 31
+        ProtestarAposNDiasCorridos = 1,
+        ProtestarAposNDiasUteis = 2,
+        NaoProtestar = 3,
     }
 
     #endregion
@@ -59,41 +53,17 @@ namespace BoletoNet
 
                 switch ((EnumInstrucoes_Safra)idInstrucao)
                 {
-                    case EnumInstrucoes_Safra.PedidoBaixa:
-                        this.Codigo = (int)EnumInstrucoes_Safra.PedidoBaixa;
-                        this.Descricao = "";
+                    case EnumInstrucoes_Safra.ProtestarAposNDiasCorridos:
+                        this.Codigo = (int)EnumInstrucoes_Safra.ProtestarAposNDiasCorridos;
+                        this.Descricao = $"PROTESTAR APÓS {nrDias} DIAS CORRIDOS DO VENCIMENTO";
                         break;
-                    case EnumInstrucoes_Safra.ConcessaoAbatimento:
-                        this.Codigo = (int)EnumInstrucoes_Safra.ConcessaoAbatimento;
-                        this.Descricao = "";
-                        break;
-                    case EnumInstrucoes_Safra.CancelamentoAbatimentoConcedido:
-                        this.Codigo = (int)EnumInstrucoes_Safra.CancelamentoAbatimentoConcedido;
-                        this.Descricao = "";
-                        break;
-                    case EnumInstrucoes_Safra.AlteracaoVencimento:
-                        this.Codigo = (int)EnumInstrucoes_Safra.AlteracaoVencimento;
-                        this.Descricao = "";
-                        break;
-                    case EnumInstrucoes_Safra.Protestar:
-                        this.Codigo = (int)EnumInstrucoes_Safra.Protestar;
-                        this.Descricao = "PROTESTAR APÓS " + nrDias + " DIAS ÚTEIS DO VENCIMENTO";
+                    case EnumInstrucoes_Safra.ProtestarAposNDiasUteis:
+                        this.Codigo = (int)EnumInstrucoes_Safra.ProtestarAposNDiasUteis;
+                        this.Descricao = $"PROTESTAR APÓS {nrDias} DIAS ÚTEIS DO VENCIMENTO";
                         break;
                     case EnumInstrucoes_Safra.NaoProtestar:
                         this.Codigo = (int)EnumInstrucoes_Safra.NaoProtestar;
                         this.Descricao = "Não protestar";
-                        break;
-                    case EnumInstrucoes_Safra.NaoCobrarJurosDeMora:
-                        this.Codigo = (int)EnumInstrucoes_Safra.NaoCobrarJurosDeMora;
-                        this.Descricao = "Não cobrar juros de mora";
-                        break;
-                    case EnumInstrucoes_Safra.JurosdeMora:
-                        this.Codigo = (int)EnumInstrucoes_Safra.JurosdeMora;
-                        this.Descricao = "Após vencimento cobrar R$ "; // por dia de atraso
-                        break;
-                    case EnumInstrucoes_Safra.AlteracaoOutrosDados:
-                        this.Codigo = (int)EnumInstrucoes_Safra.AlteracaoOutrosDados;
-                        this.Descricao = "";
                         break;
                     default:
                         this.Codigo = 0;
