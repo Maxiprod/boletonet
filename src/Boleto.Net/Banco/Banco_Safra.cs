@@ -23,6 +23,7 @@ namespace BoletoNet
         private string _dacNossoNumero = string.Empty;
         private int _dacContaCorrente = 0;
         private int _dacBoleto = 0;
+        private int tamanhoCNAB240 = 240;
 
         /// <summary>
         /// Classe responsavel em criar os campos do Banco Banco_Safra.
@@ -82,6 +83,9 @@ namespace BoletoNet
             return GerarHeaderRemessa("0", cedente, tipoArquivo, numeroArquivoRemessa);
         }
 
+        /// <summary>       
+        /// Todo o arquivo remessa CNAB240 é gerado a partir da documentação https://drive.google.com/file/d/1172cTUIhUnwGfltd-urjVeBiS1alNI80
+        /// </summary>
         public override string GerarHeaderRemessa(string numeroConvenio, Cedente cedente, TipoArquivo tipoArquivo, int numeroArquivoRemessa)
         {
             try
@@ -114,7 +118,7 @@ namespace BoletoNet
         {
             try
             {
-                StringBuilder header = new StringBuilder(240);
+                StringBuilder header = new StringBuilder(tamanhoCNAB240);
 
                 header.Append(Codigo.ToString("D3"));
                 header.Append("0000");
@@ -183,7 +187,7 @@ namespace BoletoNet
         {
             try
             {
-                StringBuilder header = new StringBuilder(240);
+                StringBuilder header = new StringBuilder(tamanhoCNAB240);
 
                 header.Append(Codigo.ToString("D3")); 
                 
@@ -241,21 +245,11 @@ namespace BoletoNet
                     }
                 }
 
-                string vInstrucao1 = "0";
-                string vInstrucao2 = "00";
-                foreach (IInstrucao instrucao in boleto.Instrucoes)
-                {
-                    switch ((EnumInstrucoes_Safra)instrucao.Codigo)
-                    {
-                        case EnumInstrucoes_Safra.ProtestarAposNDiasCorridos:
-                        case EnumInstrucoes_Safra.ProtestarAposNDiasUteis:
-                            vInstrucao1 = Utils.FitStringLength(instrucao.Codigo.ToString(), 1, 1, '0', 0, true, true, true);
-                            vInstrucao2 = Utils.FitStringLength(instrucao.QuantidadeDias.ToString(), 2, 2, '0', 0, true, true, true);
-                            break;
-                    }
-                }
+                string codigoBaixa = "0";
+                string quantidadeDiasBaixa = "00";
+                PreencheDadosInstrucaoBaixa(boleto, ref codigoBaixa, ref quantidadeDiasBaixa);
 
-                StringBuilder segmentoP = new StringBuilder(240);
+                StringBuilder segmentoP = new StringBuilder(tamanhoCNAB240);
 
                 segmentoP.Append(Codigo.ToString("D3"));
                 segmentoP.Append("0001");
@@ -311,8 +305,8 @@ namespace BoletoNet
                 segmentoP.Append(Utils.FormatCode("", "0", 15));
                 segmentoP.Append(Utils.FormatCode(boleto.NumeroDocumento, " ", 25));
 
-                segmentoP.Append(Utils.FormatCode(vInstrucao1, 1));
-                segmentoP.Append(Utils.FormatCode(vInstrucao2, 2));
+                segmentoP.Append(Utils.FormatCode(codigoBaixa, 1));
+                segmentoP.Append(Utils.FormatCode(quantidadeDiasBaixa, 2));
 
                 segmentoP.Append("2");
                 segmentoP.Append("   ");
@@ -329,11 +323,26 @@ namespace BoletoNet
             }
         }
 
+        private static void PreencheDadosInstrucaoBaixa(Boleto boleto, ref string codigoBaixa, ref string quantidadeDiasBaixa)
+        {
+            foreach (IInstrucao instrucao in boleto.Instrucoes)
+            {
+                switch ((EnumInstrucoes_Safra)instrucao.Codigo)
+                {
+                    case EnumInstrucoes_Safra.ProtestarAposNDiasCorridos:
+                    case EnumInstrucoes_Safra.ProtestarAposNDiasUteis:
+                        codigoBaixa = Utils.FitStringLength(instrucao.Codigo.ToString(), 1, 1, '0', 0, true, true, true);
+                        quantidadeDiasBaixa = Utils.FitStringLength(instrucao.QuantidadeDias.ToString(), 2, 2, '0', 0, true, true, true);
+                        break;
+                }
+            }
+        }
+
         public override string GerarDetalheSegmentoQRemessa(Boleto boleto, int numeroRegistro, TipoArquivo tipoArquivo)
         {
             try
             {
-                StringBuilder segmentoQ = new StringBuilder(240);
+                StringBuilder segmentoQ = new StringBuilder(tamanhoCNAB240);
 
                 segmentoQ.Append(Codigo.ToString("D3"));
                 segmentoQ.Append("0001");
@@ -372,7 +381,7 @@ namespace BoletoNet
         {
             try
             {
-                StringBuilder segmentoR = new StringBuilder(240);
+                StringBuilder segmentoR = new StringBuilder(tamanhoCNAB240);
 
                 segmentoR.Append(Codigo.ToString("D3"));
                 segmentoR.Append("0001");
@@ -419,7 +428,7 @@ namespace BoletoNet
         {
             try
             {
-                StringBuilder header = new StringBuilder(240);
+                StringBuilder header = new StringBuilder(tamanhoCNAB240);
 
                 header.Append(Codigo.ToString("D3")); 
                 
@@ -454,7 +463,7 @@ namespace BoletoNet
         {
             try
             {
-                StringBuilder header = new StringBuilder(240);
+                StringBuilder header = new StringBuilder(tamanhoCNAB240);
 
                 header.Append(Codigo.ToString("D3"));
 

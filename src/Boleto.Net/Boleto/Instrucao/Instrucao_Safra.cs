@@ -55,11 +55,11 @@ namespace BoletoNet
                 {
                     case EnumInstrucoes_Safra.ProtestarAposNDiasCorridos:
                         this.Codigo = (int)EnumInstrucoes_Safra.ProtestarAposNDiasCorridos;
-                        this.Descricao = "PROTESTAR APÓS " + nrDias + " DIAS CORRIDOS DO VENCIMENTO";
+                        this.Descricao = $"PROTESTAR APÓS {nrDias} DIAS CORRIDOS DO VENCIMENTO";
                         break;
                     case EnumInstrucoes_Safra.ProtestarAposNDiasUteis:
                         this.Codigo = (int)EnumInstrucoes_Safra.ProtestarAposNDiasUteis;
-                        this.Descricao = "PROTESTAR APÓS " + nrDias + " DIAS ÚTEIS DO VENCIMENTO";
+                        this.Descricao = $"PROTESTAR APÓS {nrDias} DIAS ÚTEIS DO VENCIMENTO";
                         break;
                     case EnumInstrucoes_Safra.NaoProtestar:
                         this.Codigo = (int)EnumInstrucoes_Safra.NaoProtestar;
