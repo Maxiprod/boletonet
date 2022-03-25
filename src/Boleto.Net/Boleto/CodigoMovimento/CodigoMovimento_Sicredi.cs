@@ -10,6 +10,7 @@ namespace BoletoNet
         EntradaConfirmada = 02,                                       //02 Entrada confirmada
         EntradaRejeitada = 03,                                        //03 Entrada rejeitada
         LiquidacaoNormal = 06,                                        //06 Liquidação normal
+        IntencaoPagamento = 07,                                       //07 Intenção de pagamento
         BaixadoAutomaticamenteViaArquivo = 09,                        //09 Baixado automaticamente via arquivo
         BaixadoConformeInstrucoesDaCooperativaDeCredito = 10,         //10 Baixado conforme instruções da cooperativa de crédito
         AbatimentoConcedido = 12,                                     //12 Abatimento concedido
@@ -58,8 +59,16 @@ namespace BoletoNet
                 this.Banco = new Banco_Sicredi();
 
                 var movimento = (EnumCodigoMovimento_Sicredi)codigo;
-                Codigo = codigo;
-                Descricao = descricoes[movimento];
+                this.Codigo = codigo;
+
+                switch (movimento)
+                {
+                    case EnumCodigoMovimento_Sicredi.IntencaoPagamento:
+                        this.Codigo = (int)EnumCodigoMovimento_Sicredi.EntradaConfirmada;
+                        break;
+                }
+
+                this.Descricao = descricoes[movimento];
             }
             catch (Exception ex)
             {
@@ -78,6 +87,7 @@ namespace BoletoNet
             { EnumCodigoMovimento_Sicredi.EntradaConfirmada                                      ,TipoOcorrenciaRetorno.EntradaConfirmada },
             { EnumCodigoMovimento_Sicredi.EntradaRejeitada                                       ,TipoOcorrenciaRetorno.EntradaRejeitada },
             { EnumCodigoMovimento_Sicredi.LiquidacaoNormal                                       ,TipoOcorrenciaRetorno.Liquidacao },
+            { EnumCodigoMovimento_Sicredi.IntencaoPagamento                                      ,TipoOcorrenciaRetorno.EntradaConfirmada },
             { EnumCodigoMovimento_Sicredi.BaixadoAutomaticamenteViaArquivo                       ,TipoOcorrenciaRetorno.Baixa },
             { EnumCodigoMovimento_Sicredi.BaixadoConformeInstrucoesDaCooperativaDeCredito        ,TipoOcorrenciaRetorno.Baixa },
             { EnumCodigoMovimento_Sicredi.AbatimentoConcedido                                    ,TipoOcorrenciaRetorno.ConfirmacaoRecebimentoInstrucaoDeAbatimento },
@@ -100,6 +110,7 @@ namespace BoletoNet
             { EnumCodigoMovimento_Sicredi.EntradaConfirmada                                       , "Entrada confirmada"                                             },
             { EnumCodigoMovimento_Sicredi.EntradaRejeitada                                        , "Entrada rejeitada"                                              },
             { EnumCodigoMovimento_Sicredi.LiquidacaoNormal                                        , "Liquidação normal"                                              },
+            { EnumCodigoMovimento_Sicredi.IntencaoPagamento                                       , "Intenção de pagamento"                                          },
             { EnumCodigoMovimento_Sicredi.BaixadoAutomaticamenteViaArquivo                        , "Baixado automaticamente via arquivo"                            },
             { EnumCodigoMovimento_Sicredi.BaixadoConformeInstrucoesDaCooperativaDeCredito         , "Baixado conforme instruções da cooperativa de crédito"          },
             { EnumCodigoMovimento_Sicredi.AbatimentoConcedido                                     , "Abatimento concedido"                                           },
