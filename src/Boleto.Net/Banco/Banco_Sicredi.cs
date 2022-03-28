@@ -1159,12 +1159,14 @@ namespace BoletoNet
                 detalhe.DACNossoNumero = reg.NossoNumeroSicredi.Substring(reg.NossoNumeroSicredi.Length - 1); //DV do Nosso Numero
                 #endregion
                 //Filler3
-                detalhe.CodigoOcorrencia = Utils.ToInt32(reg.Ocorrencia);
+                CodigoMovimento_Sicredi ocorrencia = new CodigoMovimento_Sicredi(Utils.ToInt32(reg.Ocorrencia));
+
+                detalhe.CodigoOcorrencia = ocorrencia.Codigo;
                 int dataOcorrencia = Utils.ToInt32(reg.DataOcorrencia);
                 detalhe.DataOcorrencia = Utils.ToDateTime(dataOcorrencia.ToString("##-##-##"));
 
                 //Descrição da ocorrência
-                detalhe.DescricaoOcorrencia = new CodigoMovimento(748, detalhe.CodigoOcorrencia).Descricao;
+                detalhe.DescricaoOcorrencia = ocorrencia.Descricao;
 
                 detalhe.NumeroDocumento = reg.SeuNumero;
                 //Filler4
