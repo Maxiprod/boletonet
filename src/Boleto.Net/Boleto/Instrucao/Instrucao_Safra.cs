@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace BoletoNet
 {
@@ -11,14 +9,14 @@ namespace BoletoNet
         ProtestarAposNDiasCorridos = 1,
         ProtestarAposNDiasUteis = 2,
         NaoProtestar = 3,
+        MoraDiaria = 900,
+        MultaVencimento = 901
     }
 
     #endregion
 
     public class Instrucao_Safra : AbstractInstrucao, IInstrucao
     {
-        #region Construtores
-
         public Instrucao_Safra()
         {
             try
@@ -33,18 +31,25 @@ namespace BoletoNet
 
         public Instrucao_Safra(int codigo)
         {
-            this.carregar(codigo, 0);
+            this.carregar(codigo, 0, 0);
         }
 
         public Instrucao_Safra(int codigo, int nrDias)
         {
-            this.carregar(codigo, nrDias);
+            this.carregar(codigo, nrDias, 0);
         }
-        #endregion Construtores
 
-        #region Metodos Privados
+        public Instrucao_Safra(int codigo, double valorDaMultaOuJuros)
+        {
+            this.carregar(codigo, 0, valorDaMultaOuJuros);
+        }
 
-        private void carregar(int idInstrucao, int nrDias)
+        public Instrucao_Safra(int codigo, int nrDias, double valorDaMultaOuJuros)
+        {
+            this.carregar(codigo, nrDias, valorDaMultaOuJuros);
+        }
+
+        private void carregar(int idInstrucao, int nrDias, double valorDaMultaOuJuros)
         {
             try
             {
@@ -55,15 +60,23 @@ namespace BoletoNet
                 {
                     case EnumInstrucoes_Safra.ProtestarAposNDiasCorridos:
                         this.Codigo = (int)EnumInstrucoes_Safra.ProtestarAposNDiasCorridos;
-                        this.Descricao = $"PROTESTAR APÓS {nrDias} DIAS CORRIDOS DO VENCIMENTO";
+                        this.Descricao = $"Protestar após {nrDias} dias corridos do vencimento";
                         break;
                     case EnumInstrucoes_Safra.ProtestarAposNDiasUteis:
                         this.Codigo = (int)EnumInstrucoes_Safra.ProtestarAposNDiasUteis;
-                        this.Descricao = $"PROTESTAR APÓS {nrDias} DIAS ÚTEIS DO VENCIMENTO";
+                        this.Descricao = $"Protestar após {nrDias} dias úteis do vencimento";
                         break;
                     case EnumInstrucoes_Safra.NaoProtestar:
                         this.Codigo = (int)EnumInstrucoes_Safra.NaoProtestar;
                         this.Descricao = "Não protestar";
+                        break;
+                    case EnumInstrucoes_Safra.MultaVencimento:
+                        this.Codigo = (int)EnumInstrucoes_Safra.MultaVencimento;
+                        this.Descricao = string.Format("Após vencimento cobrar multa de {0}", valorDaMultaOuJuros.ToString("C"));
+                        break;
+                    case EnumInstrucoes_Safra.MoraDiaria:
+                        this.Codigo = (int)EnumInstrucoes_Safra.MoraDiaria;
+                        this.Descricao = string.Format("Após vencimento cobrar juros de {0} por dia de atraso", valorDaMultaOuJuros.ToString("C"));
                         break;
                     default:
                         this.Codigo = 0;
@@ -83,8 +96,5 @@ namespace BoletoNet
         {
             //base.Valida();
         }
-
-        #endregion
-
     }
 }

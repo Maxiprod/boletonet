@@ -2,6 +2,7 @@ using System;
 using System.Text;
 using System.Web.UI;
 using BoletoNet;
+using BoletoNet.Excecoes;
 using BoletoNet.Util;
 
 [assembly: WebResource("BoletoNet.Imagens.422.jpg", "image/jpg")]
@@ -136,7 +137,7 @@ namespace BoletoNet
 
                 header.Append(" ");
                 header.Append(Utils.FitStringLength(cedente.Nome, 30, 30, ' ', 0, true, true, false));
-                header.Append(Utils.FormatCode("Banco Safra S/A", " ", 30));
+                header.Append(Utils.FormatCode("BANCO SAFRA SA", " ", 30));
                 header.Append(Utils.FormatCode("", " ", 10));
 
                 header.Append("1");
@@ -283,7 +284,7 @@ namespace BoletoNet
                 segmentoP.Append(" ");
                 segmentoP.Append(Utils.FitStringLength(boleto.EspecieDocumento.Codigo.ToString(), 2, 2, '0', 0, true, true, true));
                 segmentoP.Append("N");
-                segmentoP.Append(Utils.FormatCode(boleto.DataProcessamento.ToString("ddMMyyyy"), 8));
+                segmentoP.Append(Utils.FormatCode(boleto.DataDocumento.ToString("ddMMyyyy"), 8));
 
                 segmentoP.Append(Utils.FormatCode(CodJurosMora, 1));
                 segmentoP.Append(Utils.FitStringLength(boleto.DataJurosMora.ToString("ddMMyyyy"), 8, 8, ' ', 0, true, true, false));
@@ -355,7 +356,7 @@ namespace BoletoNet
                 segmentoQ.Append(boleto.Sacado.CPFCNPJ.Length == 11 ? "1" : "2");
                 segmentoQ.Append(Utils.FormatCode(boleto.Sacado.CPFCNPJ, "0", 15, true));
                 segmentoQ.Append(Utils.FitStringLength(boleto.Sacado.Nome.TrimStart(' '), 40, 40, ' ', 0, true, true, false).ToUpper());
-                segmentoQ.Append(Utils.FitStringLength(boleto.Sacado.Endereco.End.TrimStart(' '), 40, 40, ' ', 0, true, true, false).ToUpper());
+                segmentoQ.Append(Utils.FitStringLength(boleto.Sacado.Endereco.EndComNumeroEComplemento.TrimStart(' '), 40, 40, ' ', 0, true, true, false).ToUpper());
                 segmentoQ.Append(Utils.FitStringLength(boleto.Sacado.Endereco.Bairro.TrimStart(' '), 15, 15, ' ', 0, true, true, false).ToUpper());
                 segmentoQ.Append(Utils.FitStringLength(boleto.Sacado.Endereco.CEP, 8, 8, ' ', 0, true, true, false).ToUpper());
                 segmentoQ.Append(Utils.FitStringLength(boleto.Sacado.Endereco.Cidade.TrimStart(' '), 15, 15, ' ', 0, true, true, false).ToUpper());
@@ -518,7 +519,14 @@ namespace BoletoNet
 
         public override void FormataNossoNumero(Boleto boleto)
         {
-            //throw new NotImplementedException("Função não implementada.");
+            try
+            {
+                boleto.NossoNumero = string.Format("0{0}/{1}", boleto.Carteira, boleto.NossoNumero);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Erro ao formatar nosso número", ex);
+            }
         }
 
         /// <summary>
@@ -641,7 +649,6 @@ namespace BoletoNet
             return vRetorno;
         }
 
-
         public override DetalheSegmentoTRetornoCNAB240 LerDetalheSegmentoTRetornoCNAB240(string registro)
         {
             try
@@ -679,8 +686,6 @@ namespace BoletoNet
             {
                 throw new Exception("Erro ao processar arquivo de RETORNO - SEGMENTO T.", ex);
             }
-
-
         }
     }
 }
