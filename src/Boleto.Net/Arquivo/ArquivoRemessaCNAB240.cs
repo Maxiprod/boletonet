@@ -120,7 +120,6 @@ namespace BoletoNet
                         }
                     }
 
-                    //numeroRegistro--;
                     strline = banco.GerarTrailerLoteRemessa(numeroRegistro);
                     incluiLinha.WriteLine(strline);
                     OnLinhaGerada(null, strline, EnumTipodeLinha.TraillerDeLote);
@@ -165,7 +164,6 @@ namespace BoletoNet
                             }
                         }
 
-                        //numeroRegistro--;
                         strline = banco.GerarTrailerLoteRemessa(numeroRegistro, boletos[0]);
                         incluiLinha.WriteLine(strline);
                         OnLinhaGerada(null, strline, EnumTipodeLinha.TraillerDeLote);
@@ -294,7 +292,6 @@ namespace BoletoNet
                     }
 
 
-                    //numeroRegistro--;
                     strline = banco.GerarTrailerLoteRemessa(numeroRegistro);
                     incluiLinha.WriteLine(strline);
                     OnLinhaGerada(null, strline, EnumTipodeLinha.TraillerDeLote);
