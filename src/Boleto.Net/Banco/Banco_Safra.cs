@@ -473,7 +473,7 @@ namespace BoletoNet
                 header.Append(Utils.FormatCode("", " ", 9));
                 header.Append("000001");
                 header.Append(Utils.FormatCode(numeroRegistro.ToString(), "0", 6, true));
-                header.Append(Utils.FormatCode("", "0", 6));
+                header.Append(Utils.FormatCode("", " ", 6));
                 header.Append(Utils.FormatCode("", " ", 205));
 
                 return Utils.SubstituiCaracteresEspeciais(header.ToString());
