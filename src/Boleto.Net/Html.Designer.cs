@@ -192,7 +192,7 @@ namespace BoletoNet {
         ///						&lt;td class=&quot;w106&quot;&gt;Valor do Documento&lt;/td&gt;
         ///				&lt;/tr&gt;
         ///				&lt;tr class=&quot;cp h12 rBb&quot;&gt;
-        ///						&lt;td&gt;@SACADO&lt;/td&gt;
+        ///						&lt;td&gt;@PAGADOR&lt;/td&gt;
         ///						&lt;td&gt;@NOSSONUMERO&lt;/td&gt;
         ///						&lt;td&gt;@ESPECIE&lt;/td&gt;
         ///						&lt;td class=&quot;Ar&quot;&gt;@=VALORDOCUMENTO&lt;/td&gt;
