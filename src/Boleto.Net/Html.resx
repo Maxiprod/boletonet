@@ -167,7 +167,7 @@
 						&lt;td class="w106"&gt;Valor do Documento&lt;/td&gt;
 				&lt;/tr&gt;
 				&lt;tr class="cp h12 rBb"&gt;
-						&lt;td&gt;@SACADO&lt;/td&gt;
+						&lt;td&gt;@PAGADOR&lt;/td&gt;
 						&lt;td&gt;@NOSSONUMERO&lt;/td&gt;
 						&lt;td&gt;@ESPECIE&lt;/td&gt;
 						&lt;td class="Ar"&gt;@=VALORDOCUMENTO&lt;/td&gt;
@@ -766,7 +766,7 @@
 												&lt;/tr&gt;
 												&lt;tr class="cp h12 rBb Ab"&gt;
 														&lt;td class="pb4"&gt;
-																@SACADO
+																@PAGADOR
 														&lt;/td&gt;
 												&lt;/tr&gt;
 										&lt;/table&gt;
@@ -857,7 +857,7 @@
                         &lt;td class="w50p BR"&gt;Benficiário&lt;/td&gt;
                     &lt;/tr&gt;
                     &lt;tr class="cp h12 At rBb"&gt;
-                        &lt;td&gt;@SACADO&lt;/td&gt;
+                        &lt;td&gt;@PAGADOR&lt;/td&gt;
                         &lt;td class="BR"&gt;@CEDENTE_BOLETO&lt;/td&gt;
                     &lt;/tr&gt;
                     &lt;/tbody&gt;
