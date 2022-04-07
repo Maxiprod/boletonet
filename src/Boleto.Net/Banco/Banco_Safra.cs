@@ -215,7 +215,7 @@ namespace BoletoNet
                 header.Append(Utils.FormatCode("", " ", 40));
                 header.Append(Utils.FormatCode("", " ", 40));
 
-                header.Append(Utils.FormatCode(numeroArquivoRemessa.ToString(), "0", 8, true));
+                header.Append("00000001");
 
                 header.Append(DateTime.Now.ToString("ddMMyyyy"));
                 header.Append(Utils.FormatCode("", "0", 8, true));
@@ -400,7 +400,7 @@ namespace BoletoNet
                 segmentoR.Append(Utils.FormatCode("", "0", 15));
 
                 segmentoR.Append("2");
-                segmentoR.Append(Utils.FitStringLength(boleto.DataMulta.ToString("ddMMyyyy"), 8, 8, '0', 0, true, true, false));
+                segmentoR.Append(Utils.FitStringLength(boleto.DataVencimento.AddDays(1).ToString("ddMMyyyy"), 8, 8, '0', 0, true, true, false));
                 segmentoR.Append(Utils.FitStringLength(boleto.ValorMulta.ApenasNumeros(), 15, 15, '0', 0, true, true, true));
 
                 segmentoR.Append(Utils.FormatCode("", " ", 10));
