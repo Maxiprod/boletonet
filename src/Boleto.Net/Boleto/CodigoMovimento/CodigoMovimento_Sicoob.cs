@@ -30,7 +30,7 @@ namespace BoletoNet
         InstrucaoRejeitada = 32,                                         //32 Instrução rejeitada
         ConfirmacaoDePedidoDeAlteracaoDeOutrosDados = 33,                //33 Confirmação de pedido de alteração de outros dados
         RetiradoDeCartorioEManutencaoEmCarteira = 34,                    //34 Retirado de cartório e manutenção em carteira
-        AceiteDoPagador = 35,                                             //35 Aceite do pagador
+        AceiteDoPagador = 35,                                            //35 Aceite do pagador
         ConfirmacaoInstrucaoTransferenciaCarteiraModalidadeCobrança = 48 //48 Confirmação de instrução de transferência de carteira/modalidade de cobrança
     }
 
