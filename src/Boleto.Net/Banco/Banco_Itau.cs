@@ -87,7 +87,7 @@ namespace BoletoNet
                         throw new NotImplementedException("O número do documento não pode ser igual a zero.");
                 }
 
-                //Formato o número do documento 
+                //Formato o número do documento
                 if (Utils.ToInt32(boleto.NumeroDocumento) > 0)
                     boleto.NumeroDocumento = Utils.FormatCode(boleto.NumeroDocumento, 7);
 
@@ -236,28 +236,28 @@ namespace BoletoNet
               * CCC - Carteira
               * DD  - 2 primeiros números Nosso Número
               * X   - DAC Campo 1 (AAABC.CCDD) Mod10
-              * 
+              *
               * Campo 2
               * DDDDD.DEFFFY
               * DDDDD.D - Restante Nosso Número
               * E       - DAC (Agência/Conta/Carteira/Nosso Número)
               * FFF     - Três primeiros da agência
               * Y       - DAC Campo 2 (DDDDD.DEFFF) Mod10
-              * 
+              *
               * Campo 3
               * FGGGG.GGHHHZ
               * F       - Restante da Agência
               * GGGG.GG - Número Conta Corrente + DAC
               * HHH     - Zeros (Não utilizado)
               * Z       - DAC Campo 3
-              * 
+              *
               * Campo 4
               * K       - DAC Código de Barras
-              * 
+              *
               * Campo 5
               * UUUUVVVVVVVVVV
               * UUUU       - Fator Vencimento
-              * VVVVVVVVVV - Valor do Título 
+              * VVVVVVVVVV - Valor do Título
               */
                     #endregion Definições
 
@@ -296,25 +296,25 @@ namespace BoletoNet
               * CCC - Carteira
               * DD  - 2 primeiros números Nosso Número
               * X   - DAC Campo 1 (AAABC.CCDD) Mod10
-              * 
+              *
               * Campo 2 - DDDDD.DEEEEY
               * DDDDD.D - Restante Nosso Número
               * EEEE    - 4 primeiros numeros do número do documento
               * Y       - DAC Campo 2 (DDDDD.DEEEEY) Mod10
-              * 
+              *
               * Campo 3 - EEEFF.FFFGHZ
               * EEE     - Restante do número do documento
               * FFFFF   - Código do Cliente
               * G       - DAC (Carteira/Nosso Numero(sem DAC)/Numero Documento/Codigo Cliente)
               * H       - zero
               * Z       - DAC Campo 3
-              * 
+              *
               * Campo 4 - K
               * K       - DAC Código de Barras
-              * 
+              *
               * Campo 5 - UUUUVVVVVVVVVV
               * UUUU       - Fator Vencimento
-              * VVVVVVVVVV - Valor do Título 
+              * VVVVVVVVVV - Valor do Título
               */
                     #endregion Definições
 
@@ -629,15 +629,15 @@ namespace BoletoNet
         /// <summary>
         ///POS INI/FINAL	DESCRIÇÃO	                   A/N	TAM	DEC	CONTEÚDO	NOTAS
         ///--------------------------------------------------------------------------------
-        ///001 - 003	Código do Banco na compensação	    N	003		341	
-        ///004 - 007	Lote de serviço	                    N	004		0000	1 
+        ///001 - 003	Código do Banco na compensação	    N	003		341
+        ///004 - 007	Lote de serviço	                    N	004		0000	1
         ///008 - 008	Registro Hearder de Arquivo         N	001		0	2
-        ///009 - 017	Reservado (uso Banco)	            A	009		Brancos	  
-        ///018 - 018	Tipo de inscrição da empresa	    N	001		1 = CPF,  2 = CNPJ 	
+        ///009 - 017	Reservado (uso Banco)	            A	009		Brancos
+        ///018 - 018	Tipo de inscrição da empresa	    N	001		1 = CPF,  2 = CNPJ
         ///019 – 032	Nº de inscrição da empresa	        N	014		Nota 1
-        ///033 – 045	Código do Convênio no Banco   	    A	013	    Nota 2 
-        ///046 - 052	Reservado (uso Banco)	            A	007		Brancos	
-        ///053 - 053	Complemento de Registro             N	001     0			
+        ///033 – 045	Código do Convênio no Banco   	    A	013	    Nota 2
+        ///046 - 052	Reservado (uso Banco)	            A	007		Brancos
+        ///053 - 053	Complemento de Registro             N	001     0
         ///054 - 057	Agência Referente Convênio Ass.     N	004     Nota 1
         ///058 - 058    Complemento de Registro             A   001     Brancos
         ///059 - 065    Complemento de Registro             N   007     Brancos
@@ -645,15 +645,15 @@ namespace BoletoNet
         ///071 - 071    Complemento de Registro             A   001     Brancos
         ///072 - 072    DAC da Agência/Conta                N   001     Nota 1
         ///073 - 102    Nome da Empresa                     A   030     Nome da Empresa
-        ///103 - 132	Nome do Banco	                    A	030		Banco Itaú 	
-        ///133 - 142	Reservado (uso Banco)	            A	010		Brancos	
-        ///143 - 143	Código remessa 	                    N	001		1 = Remessa 	
-        ///144 - 151	Data de geração do arquivo	        N	008		DDMMAAAA	
+        ///103 - 132	Nome do Banco	                    A	030		Banco Itaú
+        ///133 - 142	Reservado (uso Banco)	            A	010		Brancos
+        ///143 - 143	Código remessa 	                    N	001		1 = Remessa
+        ///144 - 151	Data de geração do arquivo	        N	008		DDMMAAAA
         ///152 - 157	Hora de geração do arquivo          N	006		HHMMSS
         ///158 - 163	Nº seqüencial do arquivo 	        N	006	    Nota 3
         ///164 - 166	Nº da versão do layout do arquivo	N	003		040
         ///167 - 171    Densidaded de Gravação do arquivo   N   005     00000
-        ///172 - 240	Reservado (uso Banco)	            A	069		Brancos	
+        ///172 - 240	Reservado (uso Banco)	            A	069		Brancos
         /// </summary>
         public string GerarHeaderRemessaCNAB240(Cedente cedente)
         {
@@ -673,7 +673,7 @@ namespace BoletoNet
                 header += Utils.FormatCode(cedente.ContaBancaria.Conta, "0", 5, true);
                 header += " ";
                 header += Utils.FormatCode(String.IsNullOrEmpty(cedente.ContaBancaria.DigitoConta) ? " " : cedente.ContaBancaria.DigitoConta, " ", 1, true);
-                header += Utils.FitStringLength(cedente.Nome, 30, 30, ' ', 0, true, true, false);                
+                header += Utils.FitStringLength(cedente.Nome, 30, 30, ' ', 0, true, true, false);
                 header += Utils.FormatCode("BANCO ITAU SA", " ", 30);
                 header += Utils.FormatCode("", " ", 10);
                 header += "1";
@@ -759,19 +759,19 @@ namespace BoletoNet
         /// <summary>
         ///POS INI/FINAL	DESCRIÇÃO	                   A/N	TAM	DEC	CONTEÚDO	NOTAS
         ///--------------------------------------------------------------------------------
-        ///001 - 003	Código do Banco na compensação	    N	003		341	
-        ///004 - 007	Lote de serviço	                    N	004		Nota 5 
+        ///001 - 003	Código do Banco na compensação	    N	003		341
+        ///004 - 007	Lote de serviço	                    N	004		Nota 5
         ///008 - 008	Registro Hearder de Lote            N	001     1
         ///009 - 009	Tipo de Operação                    A	001		D
         ///010 - 011	Tipo de serviço             	    N	002		05
         ///012 – 013	Forma de Lançamento                 N	002		50
         ///014 – 016	Número da versão do Layout   	    A	003	    030
-        ///017 - 017	Complemento de Registro             A	001		Brancos	
+        ///017 - 017	Complemento de Registro             A	001		Brancos
         ///019 – 032	Nº de inscrição da empresa	        N	014		Nota 1
         ///033 – 045	Código do Convênio no Banco   	    A	013	    Nota 2
         ///018 - 018	Tipo de inscrição da empresa	    N	001		1 = CPF,  2 = CNPJ
-        ///046 - 052	Reservado (uso Banco)	            A	007		Brancos	
-        ///053 - 053	Complemento de Registro             N	001     0			
+        ///046 - 052	Reservado (uso Banco)	            A	007		Brancos
+        ///053 - 053	Complemento de Registro             N	001     0
         ///054 - 057	Agência Referente Convênio Ass.     N	004     Nota 1
         ///058 - 058    Complemento de Registro             A   001     Brancos
         ///059 - 065    Complemento de Registro             N   007     0000000
@@ -837,7 +837,7 @@ namespace BoletoNet
         public override string GerarDetalheSegmentoPRemessa(Boleto boleto, int numeroRegistro, string numeroConvenio)
         {
             try
-            {                
+            {
                 string _segmentoP;
                 _segmentoP = "341";
                 _segmentoP += "0001";
@@ -962,7 +962,7 @@ namespace BoletoNet
                 _segmentoR += Utils.FitStringLength(numeroRegistro.ToString(), 5, 5, '0', 0, true, true, true);
                 _segmentoR += "R ";
                 _segmentoR += ObterCodigoDaOcorrencia(boleto);
-                
+
                 //Suelton - 18/12/2018 - Implementação do 2 desconto por antecipação
                 if (boleto.DataDescontoAntecipacao2.HasValue && boleto.ValorDescontoAntecipacao2.HasValue)
                 {
@@ -1068,8 +1068,8 @@ namespace BoletoNet
         /// <summary>
         ///POS INI/FINAL	DESCRIÇÃO	                   A/N	TAM	DEC	CONTEÚDO	NOTAS
         ///--------------------------------------------------------------------------------
-        ///001 - 003	Código do Banco na compensação	    N	003		341	
-        ///004 - 007	Lote de serviço	                    N	004		Nota 5 
+        ///001 - 003	Código do Banco na compensação	    N	003		341
+        ///004 - 007	Lote de serviço	                    N	004		Nota 5
         ///008 - 008	Registro Detalhe de Lote            N	001     3
         ///009 - 013	Número Sequencial Registro Lote     N	005		Nota 6
         ///014 - 014	Código Segmento Reg. Detalhe   	    A	001		A
@@ -1077,13 +1077,13 @@ namespace BoletoNet
         ///018 - 020	Código da Câmara de Compensação     N	003	    000
         ///021 - 023	Código do Banco                     N	003	    341
         ///024 – 024	Complemento de Registros	        N	001		0
-        ///025 – 028	Número Agencia Debitada       	    N	004	    
+        ///025 – 028	Número Agencia Debitada       	    N	004
         ///029 - 029	Complemento de Registros            A	001		Brancos
         ///030 - 036	Complemento de Registros            N	007		0000000
-        ///037 - 041	Número da Conta Debitada            N	005     
+        ///037 - 041	Número da Conta Debitada            N	005
         ///042 - 042	Complemento de Registros            A	001     Brancos
-        ///043 - 043    Dígito Verificador da AG/Conta      N   001     
-        ///044 - 073    Nome do Debitado                    A   030     
+        ///043 - 043    Dígito Verificador da AG/Conta      N   001
+        ///044 - 073    Nome do Debitado                    A   030
         ///074 - 088    Nr. do Docum. Atribuído p/ Empresa  A   015     Nota 8
         ///089 - 093    Complemento de Registros            A   005     Brancos
         ///094 - 101    Data para o Lançamento do Débito    N   008     DDMMAAAA
@@ -1097,7 +1097,7 @@ namespace BoletoNet
         ///180 - 196    Valor do Encargo p/ dia de Atraso   N   017     Nota 12
         ///197 - 212	Info. Compl. p/ Histórico C/C       A	016		Nota 13
         ///213 - 216    Complemento de Registros            A   004     Brancos
-        ///217 - 230    No. de Insc. do Debitado(CPF/CNPJ)  N   014     
+        ///217 - 230    No. de Insc. do Debitado(CPF/CNPJ)  N   014
         ///231 - 240    Cód. Ocr. para Retorno              A   010     Brancos
         /// </summary>
         public string GerarDetalheRemessaCNAB240(Boleto boleto, int numeroRegistro, TipoArquivo tipoArquivo)
@@ -1160,9 +1160,9 @@ namespace BoletoNet
 
                 // Tipo de inscrição da empresa
 
-                // Normalmente definem o tipo (CPF/CNPJ) e o número de inscrição do cedente. 
-                // Se o título for negociado, deverão ser utilizados para indicar o CNPJ/CPF do sacador 
-                // (cedente original), uma vez que os cartórios exigem essa informação para efetivação 
+                // Normalmente definem o tipo (CPF/CNPJ) e o número de inscrição do cedente.
+                // Se o título for negociado, deverão ser utilizados para indicar o CNPJ/CPF do sacador
+                // (cedente original), uma vez que os cartórios exigem essa informação para efetivação
                 // dos protestos. Para este fim, também poderá ser utilizado o registro tipo “5”.
                 // 01 - CPF DO CEDENTE
                 // 02 - CNPJ DO CEDENTE
@@ -1170,11 +1170,18 @@ namespace BoletoNet
                 // 04 - CNPJ DO SACADOR
                 // O arquivo gerado pelo aplicativo do Banco ITAÚ, sempre atriubuiu 04 para o tipo de inscrição da empresa
 
-                if (boleto.Cedente.CPFCNPJ.Length <= 11)
-                    _detalhe += "01";
+                if (boleto.Sacado.IsEmpresaSacadora)
+                {
+                    _detalhe += boleto.Sacado.CPFCNPJ.Length <= 11 ? "03" : "04";
+                }
                 else
-                    _detalhe += "02";
-                _detalhe += Utils.FitStringLength(boleto.Cedente.CPFCNPJ.ToString(), 14, 14, '0', 0, true, true, true);
+                {
+                    _detalhe += boleto.Cedente.CPFCNPJ.Length <= 11 ? "01" : "02";
+                }
+
+                var cpfCnpjEmpresa = boleto.Sacado.IsEmpresaSacadora ? boleto.Sacado.CPFCNPJ : boleto.Cedente.CPFCNPJ;
+
+                _detalhe += Utils.FitStringLength(cpfCnpjEmpresa.ToString(), 14, 14, '0', 0, true, true, true);
                 _detalhe += Utils.FitStringLength(boleto.Cedente.ContaBancaria.Agencia.ToString(), 4, 4, '0', 0, true, true, true);
                 _detalhe += "00";
                 _detalhe += Utils.FitStringLength(boleto.Cedente.ContaBancaria.Conta.ToString(), 5, 5, '0', 0, true, true, true);
@@ -1183,10 +1190,10 @@ namespace BoletoNet
 
                 // Código da instrução/alegação a ser cancelada
 
-                // Deve ser preenchido na remessa somente quando utilizados, na posição 109-110, os códigos de ocorrência 35 – 
-                // Cancelamento de Instrução e 38 – Cedente não concorda com alegação do sacado. Para os demais códigos de 
-                // ocorrência este campo deverá ser preenchido com zeros. 
-                //Obs.: No arquivo retorno será informado o mesmo código da instrução cancelada, e para o cancelamento de alegação 
+                // Deve ser preenchido na remessa somente quando utilizados, na posição 109-110, os códigos de ocorrência 35 –
+                // Cancelamento de Instrução e 38 – Cedente não concorda com alegação do sacado. Para os demais códigos de
+                // ocorrência este campo deverá ser preenchido com zeros.
+                //Obs.: No arquivo retorno será informado o mesmo código da instrução cancelada, e para o cancelamento de alegação
                 // de sacado não há retorno da informação.
 
                 // Por enquanto o objetivo é apenas gerar o arquivo de remessa e não utilizar o arquivo para enviar instruções
@@ -1217,8 +1224,8 @@ namespace BoletoNet
                 _detalhe += Utils.FitStringLength(EspecieDocumento.ValidaCodigo(boleto.EspecieDocumento).ToString(), 2, 2, '0', 0, true, true, true);
                 _detalhe += Utils.FitStringLength(boleto.Aceite, 1, 1, ' ', 0, true, true, false); // Identificação de título, Aceito ou Não aceito
 
-                //A data informada neste campo deve ser a mesma data de emissão do título de crédito 
-                //(Duplicata de Serviço / Duplicata Mercantil / Nota Fiscal, etc), que deu origem a esta Cobrança. 
+                //A data informada neste campo deve ser a mesma data de emissão do título de crédito
+                //(Duplicata de Serviço / Duplicata Mercantil / Nota Fiscal, etc), que deu origem a esta Cobrança.
                 //Existindo divergência, na existência de protesto, a documentação poderá não ser aceita pelo Cartório.
                 _detalhe += boleto.DataDocumento.ToString("ddMMyy");
 
@@ -1236,7 +1243,7 @@ namespace BoletoNet
                         _detalhe += Utils.FitStringLength(boleto.Instrucoes[1].Codigo.ToString(), 2, 2, '0', 0, true, true, true);
                         break;
                 }
-                                
+
                 _detalhe += Utils.FitStringLength(boleto.JurosMora.ApenasNumeros(), 13, 13, '0', 0, true, true, true);
 
                 // Data limite para desconto
@@ -1259,11 +1266,11 @@ namespace BoletoNet
                 ;
                 _detalhe += Utils.FitStringLength(boleto.Pagador.Endereco.Cidade, 15, 15, ' ', 0, true, true, false).ToUpper();
                 _detalhe += Utils.FitStringLength(boleto.Pagador.Endereco.UF, 2, 2, ' ', 0, true, true, false).ToUpper();
-                
+
                 // SACADOR/AVALISTA
-                // Normalmente deve ser preenchido com o nome do sacador/avalista. Alternativamente este campo poderá 
+                // Normalmente deve ser preenchido com o nome do sacador/avalista. Alternativamente este campo poderá
                 // ter dois outros usos:
-                // a) 2o e 3o descontos: para de operar com mais de um desconto(depende de cadastramento prévio do 
+                // a) 2o e 3o descontos: para de operar com mais de um desconto(depende de cadastramento prévio do
                 // indicador 19.0 pelo Banco Itaú, conforme item 5)
                 // b) Mensagens ao sacado: se utilizados as instruções 93 ou 94 (Nota 11), transcrever a mensagem desejada
 
@@ -1280,7 +1287,7 @@ namespace BoletoNet
                     _detalhe += "  "; //352 - 353
                     if (boleto.DataDescontoAntecipacao2.HasValue)
                     {
-                        _detalhe += boleto.DataDescontoAntecipacao2.Value.ToString("ddMMyy") + 
+                        _detalhe += boleto.DataDescontoAntecipacao2.Value.ToString("ddMMyy") +
                             Utils.FitStringLength(boleto.ValorDescontoAntecipacao2.Value.ApenasNumeros(), 13, 13, '0', 0, true, true, true);
                     }
                     else
@@ -1290,7 +1297,7 @@ namespace BoletoNet
 
                     if (boleto.DataDescontoAntecipacao3.HasValue)
                     {
-                        _detalhe += boleto.DataDescontoAntecipacao3.Value.ToString("ddMMyy") + 
+                        _detalhe += boleto.DataDescontoAntecipacao3.Value.ToString("ddMMyy") +
                             Utils.FitStringLength(boleto.ValorDescontoAntecipacao3.Value.ApenasNumeros(), 13, 13, '0', 0, true, true, true) + "00";
                     }
                     else
@@ -1327,8 +1334,8 @@ namespace BoletoNet
                     }
 
                     _detalhe += " "; // Complemento do registro
-                }               
-                
+                }
+
                 _detalhe += Utils.FitStringLength(numeroRegistro.ToString(), 6, 6, '0', 0, true, true, true);
 
                 _detalhe = Utils.SubstituiCaracteresEspeciais(_detalhe);
@@ -1362,12 +1369,12 @@ namespace BoletoNet
         /// <summary>
         ///POS INI/FINAL	DESCRIÇÃO	                   A/N	TAM	DEC	CONTEÚDO	NOTAS
         ///--------------------------------------------------------------------------------
-        ///001 - 003	Código do Banco na compensação	    N	003		341	
-        ///004 - 007	Lote de serviço	                    N	004		Nota 5 
+        ///001 - 003	Código do Banco na compensação	    N	003		341
+        ///004 - 007	Lote de serviço	                    N	004		Nota 5
         ///008 - 008	Registro Trailer de Lote            N	001     5
         ///009 - 017	Complemento de Registros            A	009     Brancos
-        ///018 - 023    Qtd. Registros do Lote              N   006     Nota 15     
-        ///024 - 041    Soma Valor dos Débitos do Lote      N   018     Nota 14     
+        ///018 - 023    Qtd. Registros do Lote              N   006     Nota 15
+        ///024 - 041    Soma Valor dos Débitos do Lote      N   018     Nota 14
         ///042 - 059    Soma Qtd. de Moedas do Lote         N   018     Nota 14
         ///060 - 230    Complemento de Registros            A   171     Brancos
         ///231 - 240    Cód. Ocr. para Retorno              A   010     Brancos
@@ -1422,19 +1429,19 @@ namespace BoletoNet
             //catch (Exception e)
             //{
             //    throw new Exception("Erro durante a geração do registro TRAILER do LOTE de REMESSA.", e);
-            //} 
+            //}
             #endregion
         }
 
         /// <summary>
         ///POS INI/FINAL	DESCRIÇÃO	                   A/N	TAM	DEC	CONTEÚDO	NOTAS
         ///--------------------------------------------------------------------------------
-        ///001 - 003	Código do Banco na compensação	    N	003		341	
-        ///004 - 007	Lote de serviço	                    N	004		9999 
+        ///001 - 003	Código do Banco na compensação	    N	003		341
+        ///004 - 007	Lote de serviço	                    N	004		9999
         ///008 - 008	Registro Trailer de Arquivo         N	001     9
         ///009 - 017	Complemento de Registros            A	009     Brancos
-        ///018 - 023    Qtd. Lotes do Arquivo               N   006     Nota 15     
-        ///024 - 029    Qtd. Registros do Arquivo           N   006     Nota 15     
+        ///018 - 023    Qtd. Lotes do Arquivo               N   006     Nota 15
+        ///024 - 029    Qtd. Registros do Arquivo           N   006     Nota 15
         ///030 - 240    Complemento de Registros            A   211     Brancos
         /// </summary>
 
@@ -1456,7 +1463,7 @@ namespace BoletoNet
             catch (Exception e)
             {
                 throw new Exception("Erro ao gerar Trailer de arquivo de remessa.", e);
-            }           
+            }
         }
         #endregion
 
@@ -1589,12 +1596,12 @@ namespace BoletoNet
                     _registroOpcional += new string(' ', 80);
 
                 _registroOpcional += new string(' ', 6); //Data limite para concessão de Desconto 2 (6, N) DDMMAA
-                _registroOpcional += new string(' ', 13);//Valor do Desconto (13, N) 
+                _registroOpcional += new string(' ', 13);//Valor do Desconto (13, N)
                 _registroOpcional += new string(' ', 6);//Data limite para concessão de Desconto 3 (6, N) DDMMAA
                 _registroOpcional += new string(' ', 13);//Valor do Desconto (13, N)
                 _registroOpcional += new string(' ', 7);//Reserva (7, A)
                 _registroOpcional += Utils.FitStringLength(boleto.Carteira, 3, 3, '0', 0, true, true, true); //Carteira (3, N)
-                _registroOpcional += Utils.FitStringLength(boleto.Cedente.ContaBancaria.Agencia, 5, 5, '0', 0, true, true, true); //Agência (5, N) 
+                _registroOpcional += Utils.FitStringLength(boleto.Cedente.ContaBancaria.Agencia, 5, 5, '0', 0, true, true, true); //Agência (5, N)
                 _registroOpcional += Utils.FitStringLength(boleto.Cedente.ContaBancaria.Conta, 7, 7, '0', 0, true, true, true); //Conta Corrente (7, N)
                 _registroOpcional += Utils.FitStringLength(boleto.Cedente.ContaBancaria.DigitoConta, 1, 1, '0', 0, true, true, true); //Dígito C/C (1, A)
                 _registroOpcional += Utils.FitStringLength(boleto.NossoNumero, 11, 11, '0', 0, true, true, true); //Nosso Número (11, N)
