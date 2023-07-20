@@ -9,6 +9,7 @@ namespace BoletoNet
     {
         EntradaConfirmada = 02,                                          //02 Entrada confirmada
         EntradaRejeitada = 03,                                           //03 Entrada rejeitada
+        TransferenciaCarteiraEntrada = 04,                               //04 Transferência de Carteira/Entrada
         LiquidacaoNormal = 06,                                           //06 Liquidação normal
         Baixado = 09,                                                    //09 Baixado
         BaixadoConformeInstrucoesDaCooperativaDeCredito = 10,            //10 Baixado conforme instruções da cooperativa de crédito
@@ -88,6 +89,7 @@ namespace BoletoNet
         {
             { EnumCodigoMovimento_Sicoob.EntradaConfirmada                                              ,TipoOcorrenciaRetorno.EntradaConfirmada },
             { EnumCodigoMovimento_Sicoob.EntradaRejeitada                                               ,TipoOcorrenciaRetorno.EntradaRejeitada },
+            { EnumCodigoMovimento_Sicoob.TransferenciaCarteiraEntrada                                   ,TipoOcorrenciaRetorno.TransferenciaDeCarteiraEntrada },
             { EnumCodigoMovimento_Sicoob.LiquidacaoNormal                                               ,TipoOcorrenciaRetorno.Liquidacao },
             { EnumCodigoMovimento_Sicoob.Baixado                                                        ,TipoOcorrenciaRetorno.Baixa },
             { EnumCodigoMovimento_Sicoob.BaixadoConformeInstrucoesDaCooperativaDeCredito                ,TipoOcorrenciaRetorno.Baixa },
@@ -113,6 +115,7 @@ namespace BoletoNet
         {
             { EnumCodigoMovimento_Sicoob.EntradaConfirmada                                              , "Entrada confirmada"                                                              },
             { EnumCodigoMovimento_Sicoob.EntradaRejeitada                                               , "Entrada rejeitada"                                                               },
+            { EnumCodigoMovimento_Sicoob.TransferenciaCarteiraEntrada                                   , "Transferência de Carteira/Entrada"                                                               },
             { EnumCodigoMovimento_Sicoob.LiquidacaoNormal                                               , "Liquidação normal"                                                               },
             { EnumCodigoMovimento_Sicoob.Baixado                                                        , "Baixa de Título"                                                                 },
             { EnumCodigoMovimento_Sicoob.BaixadoConformeInstrucoesDaCooperativaDeCredito                , "Baixado conforme instruções da cooperativa de crédito"                           },
