@@ -1827,7 +1827,7 @@ namespace BoletoNet
         {
             try
             {
-                var versaoLayout = registro.Substring(159, 3);
+                var versaoLayout = registro.Substring(158, 3);
                 var quantidadeDigitosCodigoEmpresa = versaoLayout == "007" ? 7 : 6;
 
                 return new HeaderRetorno
@@ -1844,6 +1844,7 @@ namespace BoletoNet
                     NomeBanco = registro.Substring(079, 15),
                     DataGeracao = Utils.ToDateTime(Utils.ToInt32(registro.Substring(094, 6)).ToString("##-##-##")),
                     Mensagem = registro.Substring(100, 58),
+                    Versao = versaoLayout,
                     NumeroSequencialArquivoRetorno = Utils.ToInt32(registro.Substring(389, 5)),
                     NumeroSequencial = Utils.ToInt32(registro.Substring(394, 6)),
                 };
@@ -1854,11 +1855,13 @@ namespace BoletoNet
             }
         }
 
-        public override DetalheRetorno LerDetalheRetornoCNAB400(string registro)
+        public override DetalheRetorno LerDetalheRetornoCNAB400(string registro, HeaderRetorno header)
         {
             try
             {
-                TRegistroEDI_Caixa_Retorno reg = new TRegistroEDI_Caixa_Retorno { LinhaRegistro = registro };
+                var utilizaVersao007 = header.Versao == "007";
+
+                TRegistroEDI_Caixa_Retorno reg = new TRegistroEDI_Caixa_Retorno(utilizaVersao007) { LinhaRegistro = registro };
                 reg.DecodificarLinha();
 
                 DetalheRetorno detalhe = new DetalheRetorno

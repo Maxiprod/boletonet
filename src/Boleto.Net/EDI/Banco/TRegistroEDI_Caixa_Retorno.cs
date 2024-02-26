@@ -258,19 +258,22 @@ namespace BoletoNet.EDI.Banco
         }
         #endregion
 
-        public TRegistroEDI_Caixa_Retorno()
+        public TRegistroEDI_Caixa_Retorno(bool utilizaVersao007 = false)
         {
             /*
              * Aqui é que iremos informar as características de cada campo do arquivo
              * Na classe base, TCampoRegistroEDI, temos a propriedade CamposEDI, que é uma coleção de objetos
              * TCampoRegistroEDI.
              */
+            var posicaoInicialCodigoBeneficiario = utilizaVersao007 ? 0021 : 0022;
+            var posicaoFinalCodigoBeneficiario = utilizaVersao007 ? 007 : 006;
+
             #region TODOS os Campos
             this._CamposEDI.Add(new TCampoRegistroEDI(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0001, 001, 0, string.Empty, ' ')); //001-001
             this._CamposEDI.Add(new TCampoRegistroEDI(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0002, 002, 0, string.Empty, ' ')); //002-003
             this._CamposEDI.Add(new TCampoRegistroEDI(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0004, 014, 0, string.Empty, ' ')); //004-017
             this._CamposEDI.Add(new TCampoRegistroEDI(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0018, 003, 0, string.Empty, ' ')); //018-020
-            this._CamposEDI.Add(new TCampoRegistroEDI(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0021, 007, 0, string.Empty, ' ')); //021-027
+            this._CamposEDI.Add(new TCampoRegistroEDI(TTiposDadoEDI.ediAlphaAliEsquerda_____, posicaoInicialCodigoBeneficiario, posicaoFinalCodigoBeneficiario, 0, string.Empty, ' '));
             this._CamposEDI.Add(new TCampoRegistroEDI(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0028, 001, 0, string.Empty, ' ')); //0028-0028
             this._CamposEDI.Add(new TCampoRegistroEDI(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0029, 001, 0, string.Empty, ' ')); //0029-0029
             this._CamposEDI.Add(new TCampoRegistroEDI(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0030, 002, 0, string.Empty, ' ')); //0030-0031

@@ -21,7 +21,7 @@ namespace BoletoNet
         /// <summary>
         /// Formata o número do documento, alguns bancos exige uma formatação. Tipo: 123-4
         /// </summary>
-        void FormataNumeroDocumento(Boleto boleto);        
+        void FormataNumeroDocumento(Boleto boleto);
         /// <summary>
         /// Responsável pela validação de todos os dados referente ao banco, que serão usados no boleto
         /// </summary>
@@ -77,7 +77,7 @@ namespace BoletoNet
         /// <summary>
         /// Gera os registros de detalhe do arquivo de remessa - SEGMENTO P
         /// </summary>
-        string GerarDetalheSegmentoPRemessa(Boleto boleto, int numeroRegistro, string numeroConvenio, Cedente cedente, Boleto boletos);                
+        string GerarDetalheSegmentoPRemessa(Boleto boleto, int numeroRegistro, string numeroConvenio, Cedente cedente, Boleto boletos);
         /// <summary>
         /// Gera os registros de detalhe do arquivo de remessa - SEGMENTO Q
         /// </summary>
@@ -124,6 +124,7 @@ namespace BoletoNet
         DetalheSegmentoWRetornoCNAB240 LerDetalheSegmentoWRetornoCNAB240(string registro);
 
         DetalheRetorno LerDetalheRetornoCNAB400(string registro);
+        DetalheRetorno LerDetalheRetornoCNAB400(string registro, HeaderRetorno header);
         HeaderRetorno LerHeaderRetornoCNAB400(string registro);
 
         Cedente Cedente { get; }
