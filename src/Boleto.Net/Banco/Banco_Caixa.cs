@@ -1859,15 +1859,15 @@ namespace BoletoNet
         {
             try
             {
-                var utilizaVersao007 = header.Versao == "007";
-
-                TRegistroEDI_Caixa_Retorno reg = new TRegistroEDI_Caixa_Retorno(utilizaVersao007) { LinhaRegistro = registro };
+                TRegistroEDI_Caixa_Retorno reg = new TRegistroEDI_Caixa_Retorno { LinhaRegistro = registro };
                 reg.DecodificarLinha();
+
+                var utilizaVersao007 = header.Versao == "007";
 
                 DetalheRetorno detalhe = new DetalheRetorno
                 {
                     NumeroInscricao = reg.NumeroInscricaoEmpresa,
-                    CodigoInscricao = Utils.ToInt32(reg.CodigoEmpresa),
+                    CodigoInscricao = Utils.ToInt32(utilizaVersao007 ? reg.CodigoEmpresa : reg.CodigoEmpresa.Substring(1)),
                     NumeroControle = reg.IdentificacaoTituloEmpresa_NossoNumero,
                     NossoNumeroComDV = reg.IdentificacaoTituloEmpresa_NossoNumero_Modalidde +
                                        reg.IdentificacaoTituloCaixa_NossoNumero,
