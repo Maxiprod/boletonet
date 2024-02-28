@@ -576,6 +576,11 @@ namespace BoletoNet
 			return _IBanco.LerDetalheRetornoCNAB400(registro);
 		}
 
+        public DetalheRetorno LerDetalheRetornoCNAB400(string registro, HeaderRetorno header)
+        {
+            return _IBanco.LerDetalheRetornoCNAB400(registro, header);
+        }
+
         public HeaderRetorno LerHeaderRetornoCNAB400(string registro)
         {
             return _IBanco.LerHeaderRetornoCNAB400(registro);

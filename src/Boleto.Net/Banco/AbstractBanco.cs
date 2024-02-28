@@ -269,7 +269,7 @@ namespace BoletoNet
         }
         /// <summary>
         /// Formata código de barras
-        /// </summary>      
+        /// </summary>
         public virtual void FormataCodigoBarra(Boleto boleto)
         {
             throw new NotImplementedException("Função não implementada na classe filha. Implemente na classe que está sendo criada.");
@@ -406,6 +406,11 @@ namespace BoletoNet
             }
         }
 
+        public virtual DetalheRetorno LerDetalheRetornoCNAB400(string registro, HeaderRetorno header)
+        {
+            return this.LerDetalheRetornoCNAB400(registro);
+        }
+
         public virtual HeaderRetorno LerHeaderRetornoCNAB400(string registro)
         {
             try
@@ -437,7 +442,7 @@ namespace BoletoNet
         /// <param name="boleto"></param>
         /// <returns>Retorno Fator de Vencimento</returns>
         /// <remarks>
-        ///     Wellington(wcarvalho@novatela.com.br) 
+        ///     Wellington(wcarvalho@novatela.com.br)
         ///     Com base na proposta feita pela CENEGESC de acordo com o comunicado FEBRABAN de n° 082/2012 de 14/06/2012 segue regra para implantação.
         ///     No dia 21/02/20025 o fator vencimento chegará em 9999 assim atigindo o tempo de utilização, para contornar esse problema foi definido com uma nova regra
         ///     de utilizaçao criando um range de uso o range funcionara controlando a emissão dos boletos.

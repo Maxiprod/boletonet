@@ -72,7 +72,16 @@ namespace BoletoNet
                     {
                         if (IdsRegistroDetalhe.Contains(DetalheRetorno.PrimeiroCaracter(linha)))
                         {
-                            DetalheRetorno detalhe = banco.LerDetalheRetornoCNAB400(linha);
+                            DetalheRetorno detalhe;
+                            if (banco.Codigo == (int)Bancos.Caixa)
+                            {
+                                detalhe = banco.LerDetalheRetornoCNAB400(linha, this.HeaderRetorno);
+                            }
+                            else
+                            {
+                                detalhe = banco.LerDetalheRetornoCNAB400(linha);
+                            }
+
                             ListaDetalhe.Add(detalhe);
                             OnLinhaLida(detalhe, linha);
                         }
