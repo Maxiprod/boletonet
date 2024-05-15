@@ -640,7 +640,7 @@ namespace BoletoNet
         {
             bool vRetorno = true;
             string vMsg = string.Empty;
-            //            
+            //
             switch (tipoArquivo)
             {
                 case TipoArquivo.CNAB240:
@@ -706,7 +706,7 @@ namespace BoletoNet
                     }
                     else if (String.IsNullOrEmpty(boleto.Remessa.TipoDocumento))
                     {
-                        // Para o Sicredi, defini o Tipo de Documento sendo: 
+                        // Para o Sicredi, defini o Tipo de Documento sendo:
                         //       A = 'A' - SICREDI com Registro
                         //      C1 = 'C' - SICREDI sem Registro Impressão Completa pelo Sicredi
                         //      C2 = 'C' - SICREDI sem Registro Pedido de bloquetos pré-impressos
@@ -896,7 +896,7 @@ namespace BoletoNet
                 }
                 reg.CamposEDI.Add(new TCampoRegistroEDI(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0157, 002, 0, vInstrucao1, '0'));                               //157-158
                 reg.CamposEDI.Add(new TCampoRegistroEDI(TTiposDadoEDI.ediAlphaAliEsquerda_____, 0159, 002, 0, vInstrucao2, '0'));                               //159-160
-                #endregion               
+                #endregion
                 reg.CamposEDI.Add(new TCampoRegistroEDI(TTiposDadoEDI.ediNumericoSemSeparador_, 0161, 013, 2, ValorOuPercJuros, '0'));                          //161-173 Valor/% de juros por dia de atraso
                 #region DataDesconto
                 string vDataDesconto = "000000";
@@ -1203,6 +1203,9 @@ namespace BoletoNet
                 //Juros Mora
                 decimal jurosMora = Convert.ToUInt64(reg.JurosMora);
                 detalhe.JurosMora = jurosMora / 100;
+                //Multa
+                decimal valorMulta = Convert.ToDecimal(reg.Multa);
+                detalhe.ValorMulta = valorMulta / 100;
                 //Filler7
                 //SomenteOcorrencia19
                 //Filler8
